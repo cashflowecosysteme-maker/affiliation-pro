@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Crown, Loader2, CheckCircle, UserPlus, DollarSign, BarChart3, Rocket } from 'lucide-react'
 import { toast } from 'sonner'
 import { signup } from '@/lib/auth-client'
+import { NyXiaWidget } from '@/components/nyxia-widget'
 
 const AMBASSADOR_REFERRAL_CODE = 'SUPERADM'
 
@@ -282,6 +283,9 @@ export default function AmbassadeurPage() {
           </span>
         </p>
       </div>
+
+      {/* NyXia Pastille */}
+      <NyXiaWidget mode="pastille" />
     </div>
   )
 }

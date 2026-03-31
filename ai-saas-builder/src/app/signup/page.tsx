@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Sparkles, Loader2, CheckCircle, UserPlus, Gift } from 'lucide-react'
 import { toast } from 'sonner'
 import { signup } from '@/lib/auth-client'
+import { NyXiaWidget } from '@/components/nyxia-widget'
 
 function SignupForm() {
   const router = useRouter()
@@ -215,6 +216,7 @@ export default function SignupPage() {
     <div className="relative min-h-screen flex items-center justify-center px-4 py-8">
       <StarryBackground />
       <SignupForm />
+      <NyXiaWidget mode="pastille" />
     </div>
   )
 }

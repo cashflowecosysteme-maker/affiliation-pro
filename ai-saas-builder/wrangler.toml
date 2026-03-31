@@ -4,7 +4,7 @@ compatibility_flags = ["nodejs_compat"]
 main = ".open-next/worker.js"
 
 routes = [
-  { pattern = "affiliationpro.cashflowecosysteme.com", custom_domain = true }
+  { pattern = "affiliationpro.cashflowecosysteme.com", custom_domain = true, zone_id = "90d2dbe8746bfcc1ab83c81b4886b321" }
 ]
 
 [assets]

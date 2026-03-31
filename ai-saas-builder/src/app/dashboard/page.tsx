@@ -35,6 +35,7 @@ import {
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
 import type { Profile, Affiliate, Sale } from '@/types/database'
+import { NyXiaWidget } from '@/components/nyxia-widget'
 
 // Interface pour les membres de l'équipe
 interface TeamMember {
@@ -330,6 +331,9 @@ export default function DashboardPage() {
               Voici un aperçu de vos performances d&apos;affiliation
             </p>
           </div>
+
+          {/* NyXia Chat intégré */}
+          <NyXiaWidget mode="chat" userName={profile.full_name?.split(' ')[0] || ''} />
 
           {/* MESSAGES DU SUPER ADMIN */}
           {messages.length > 0 && (
