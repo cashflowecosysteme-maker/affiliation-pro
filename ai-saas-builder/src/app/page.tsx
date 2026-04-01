@@ -3,10 +3,10 @@ import Image from "next/image";
 import { StarryBackground } from "@/components/starry-background";
 import { LogoSlider } from "@/components/logo-slider";
 import { FloatingOrbs, FloatingParticles } from "@/components/premium-animations";
+import { NyXiaWidget } from "@/components/nyxia-widget";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { NyXiaWidget } from "@/components/nyxia-widget";
 import {
   ArrowRight,
   Sparkles,
@@ -28,6 +28,7 @@ import {
 
 export default function Home() {
   return (
+    <>
     <div className="relative min-h-screen overflow-hidden">
       <StarryBackground />
       <FloatingOrbs />
@@ -198,23 +199,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NyXia Image - Hero continuation */}
-      <section className="relative z-10 px-6 py-8 md:px-12 lg:px-24">
-        <div className="max-w-3xl mx-auto">
-          <div className="relative flex justify-center">
-            <div className="absolute inset-0 bg-gradient-to-t from-purple-500/20 via-transparent to-blue-500/10 blur-3xl rounded-full scale-75" />
-            <Image
-              src="/NyXia-26.png"
-              alt="NyXia - Ton agente IA"
-              width={400}
-              height={400}
-              className="relative z-10 w-full max-w-sm md:max-w-md drop-shadow-[0_0_40px_rgba(123,92,255,0.3)]"
-              priority
-            />
-          </div>
-        </div>
-      </section>
-
       {/* Done For You Section */}
       <section className="relative z-10 px-6 py-12 md:px-12 lg:px-24">
         <div className="max-w-6xl mx-auto">
@@ -343,22 +327,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NyXia Image - Before How it Works */}
-      <section className="relative z-10 px-6 py-8 md:px-12 lg:px-24">
-        <div className="max-w-3xl mx-auto">
-          <div className="relative flex justify-center">
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-500/15 via-purple-500/10 to-transparent blur-3xl rounded-full scale-75" />
-            <Image
-              src="/NyXia-33.png"
-              alt="NyXia - Comment ça marche"
-              width={400}
-              height={400}
-              className="relative z-10 w-full max-w-sm md:max-w-md drop-shadow-[0_0_40px_rgba(123,92,255,0.3)]"
-            />
-          </div>
-        </div>
-      </section>
-
       {/* How it Works */}
       <section id="howitworks" className="relative z-10 px-6 py-24 md:px-12 lg:px-24">
         <div className="max-w-6xl mx-auto">
@@ -406,120 +374,129 @@ export default function Home() {
 
       {/* Pricing */}
       <section id="pricing" className="relative z-10 px-6 py-24 md:px-12 lg:px-24">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Choisis ton <span className="gradient-text">accès</span>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/25 mb-6">
+              <Sparkles className="w-4 h-4 text-violet-400" />
+              <span className="text-violet-400 text-sm font-semibold tracking-wider uppercase">Tarification simple</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              Lance ton programme<br />
+              <span className="gradient-text">d'affiliation</span>
             </h2>
-            <p className="text-zinc-400">Essaie la démo gratuite. Passe à l'action quand tu es prêt.</p>
+            <p className="text-zinc-400 text-lg max-w-md mx-auto">Commence à 19 $. Scale quand tu es prêt.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Starter $19 */}
-            <Card className="glass-card rounded-3xl p-8 border-purple-500/20">
-              <CardContent className="p-0">
-                <p className="text-xs font-bold tracking-widest text-zinc-500 uppercase mb-4">Starter</p>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-4xl font-black text-white">CA$19</span>
-                </div>
-                <p className="text-zinc-500 text-sm mb-6">une fois · Accès à vie</p>
-                <ul className="space-y-3 mb-8">
-                  {[
-                    "1 site généré par NyXia",
-                    "Hébergement inclus (sous-domaine)",
-                    "Programme collaborateurs de cœur 3 niveaux",
-                    "Dashboard holographique",
-                    "Support communauté Skool",
-                    "Design premium responsive",
-                  ].map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-zinc-300 text-sm">
-                      <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <a href="https://www.publication-web.com/nyxiawebsite/19" className="block">
-                  <Button variant="outline" size="lg" className="w-full border-purple-500/30 text-zinc-300 hover:text-white hover:bg-purple-500/10 py-5 text-sm">
-                    Démarrer à 19$
-                  </Button>
-                </a>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start relative">
+            {/* Ambient glow behind Pro card */}
+            <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-violet-500/15 rounded-full blur-[120px] pointer-events-none" />
 
-            {/* Pro $39 - Mis en vedette */}
-            <Card className="glass-card rounded-3xl p-8 border-purple-500/50 glow-pulse-intense shimmer relative scale-[1.02]">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="px-4 py-1 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white text-xs font-bold tracking-wide uppercase shadow-lg shadow-purple-500/30">
-                  ⭐ Le plus populaire
-                </span>
-              </div>
+            {/* ─── STARTER ─── */}
+            <Card className="glass-card rounded-3xl p-8 glass-card-hover">
               <CardContent className="p-0">
-                <p className="text-xs font-bold tracking-widest text-purple-400 uppercase mb-4">Pro</p>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-4xl font-black text-white">CA$39</span>
+                <div className="text-center mb-8">
+                  <p className="text-violet-400/80 font-bold tracking-widest uppercase text-sm mb-6">Starter</p>
+                  <div className="flex items-baseline justify-center gap-1 mb-2">
+                    <span className="text-zinc-500 text-2xl font-semibold">19 $</span>
+                  </div>
+                  <p className="text-zinc-500 text-sm">Paiement unique · À vie</p>
                 </div>
-                <p className="text-zinc-500 text-sm mb-6">par mois · Pour les entreprises en croissance</p>
                 <ul className="space-y-3 mb-8">
                   {[
-                    "Tout ce que comprend le Starter",
-                    "Création Site Web illimité par NyXia",
-                    "3 niveaux de commissions",
-                    "Collaborateurs de cœur illimités",
-                    "Marque blanche",
-                    "Dashboard ultra-complet",
-                    "API + Webhooks multiples",
-                    "Emails avancés",
-                    "Assistance IA NyXia 24h/7j",
-                    "Support prioritaire",
+                    "Programme d'affiliation basique",
+                    "Jusqu'à 10 affiliés",
+                    "1 niveau de commissions",
+                    "Dashboard affilié simple",
+                    "Page d'inscription personnalisée",
+                    "Support communauté",
                   ].map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-zinc-300 text-sm">
-                      <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                    <li key={i} className="flex items-center gap-3 text-zinc-300 text-sm">
+                      <Check className="w-4 h-4 text-green-500 shrink-0" />
                       {feature}
                     </li>
                   ))}
                 </ul>
                 <Link href="/signup" className="block">
-                  <Button size="lg" className="w-full glass-button text-white border-0 py-5 text-sm group">
-                    Accéder au Pro
+                  <Button size="lg" variant="outline" className="w-full rounded-xl border-violet-500/30 text-white hover:bg-violet-500/10 hover:border-violet-500/50 transition-all py-5">
+                    Commencer
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* ─── PRO (Featured) ─── */}
+            <Card className="glass-card rounded-3xl p-8 md:scale-105 md:-my-4 relative border-violet-500/50 glow-pulse-intense shimmer z-10">
+              {/* Badge flottant */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                <Badge className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-5 py-1.5 rounded-full shadow-lg shadow-violet-500/40 text-xs font-bold tracking-wider border-0">
+                  ⭐ Le plus populaire
+                </Badge>
+              </div>
+              <CardContent className="p-0">
+                <div className="text-center mb-8 mt-2">
+                  <p className="text-violet-400 font-bold tracking-widest uppercase text-sm mb-6">Pro</p>
+                  <div className="flex items-baseline justify-center gap-1 mb-2">
+                    <span className="text-5xl font-black text-white gradient-text">39 $</span>
+                  </div>
+                  <p className="text-zinc-500 text-sm">par mois · Sans engagement</p>
+                </div>
+                <ul className="space-y-3 mb-8">
+                  {[
+                    "3 niveaux de commissions",
+                    "Affiliés illimités",
+                    "Marque blanche",
+                    "Dashboard ultra-complet",
+                    "API + Webhooks multiples",
+                    "Emails avancés",
+                    "Support prioritaire",
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-center gap-3 text-zinc-300 text-sm">
+                      <Check className="w-4 h-4 text-green-500 shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/signup" className="block">
+                  <Button size="lg" className="w-full rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 text-white border-0 py-5 text-base font-semibold shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-[1.02] transition-all group">
+                    Démarrer maintenant
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            {/* Meta-Presence $97 */}
-            <Card className="glass-card rounded-3xl p-8 border-green-500/30 relative">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="px-4 py-1 rounded-full bg-gradient-to-r from-green-500 to-cyan-500 text-[#07080f] text-xs font-bold tracking-wide uppercase shadow-lg shadow-green-500/30">
-                  🔮 Le produit phare
-                </span>
-              </div>
+            {/* ─── AGENCE ─── */}
+            <Card className="glass-card rounded-3xl p-8 glass-card-hover">
               <CardContent className="p-0">
-                <p className="text-xs font-bold tracking-widest text-green-400 uppercase mb-4">Meta-Presence</p>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <span className="text-4xl font-black text-white">CA$97</span>
+                <div className="text-center mb-8">
+                  <p className="text-violet-400/80 font-bold tracking-widest uppercase text-sm mb-6">Agence</p>
+                  <div className="flex items-baseline justify-center gap-1 mb-2">
+                    <span className="text-zinc-500 text-2xl font-semibold">97 $</span>
+                  </div>
+                  <p className="text-zinc-500 text-sm">par mois · Multi-comptes</p>
                 </div>
-                <p className="text-zinc-500 text-sm mb-6">une fois · Ta présence Meta construite en 24h</p>
                 <ul className="space-y-3 mb-8">
                   {[
-                    "Page Facebook professionnelle",
-                    "IA personnalisée — DM automatiques",
-                    "30 jours de publications générées par IA",
-                    "Redirection 10 000 followers en 90 jours",
-                    "Monétise Meta — revenus automatiques",
-                    "Support inclus",
+                    "Tout le plan Pro",
+                    "Multi-comptes clients",
+                    "Gestionnaire de compte dédié",
+                    "API complète",
+                    "Intégration sur mesure",
+                    "Rapports avancés",
                   ].map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-zinc-300 text-sm">
-                      <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                    <li key={i} className="flex items-center gap-3 text-zinc-300 text-sm">
+                      <Check className="w-4 h-4 text-green-500 shrink-0" />
                       {feature}
                     </li>
                   ))}
                 </ul>
-                <a href="https://nyxiapublicationweb.com/meta-presence" className="block">
-                  <Button size="lg" className="w-full bg-gradient-to-r from-green-500 to-cyan-500 hover:from-green-400 hover:to-cyan-400 text-[#07080f] border-0 py-5 text-sm font-bold">
-                    Obtenir Meta-Presence →
+                <Link href="/signup" className="block">
+                  <Button size="lg" variant="outline" className="w-full rounded-xl border-violet-500/30 text-white hover:bg-violet-500/10 hover:border-violet-500/50 transition-all py-5">
+                    Nous contacter
+                    <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                </a>
+                </Link>
               </CardContent>
             </Card>
           </div>
@@ -699,9 +676,8 @@ export default function Home() {
           </p>
         </div>
       </footer>
-
-      {/* NyXia Pastille */}
-      <NyXiaWidget mode="pastille" />
     </div>
+    <NyXiaWidget mode="pastille" />
+    </>
   );
 }
