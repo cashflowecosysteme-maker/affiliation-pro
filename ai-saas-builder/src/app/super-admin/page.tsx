@@ -59,11 +59,13 @@ import {
   ExternalLink,
   UserPlus,
   Webhook,
+  Store,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
+import MarketplaceManager from '@/components/marketplace-manager'
 
-type TabType = 'dashboard' | 'admins' | 'teams' | 'messaging' | 'settings'
+type TabType = 'dashboard' | 'admins' | 'marketplace' | 'teams' | 'messaging' | 'settings'
 
 interface Profile {
   id: string
@@ -211,6 +213,32 @@ export default function SuperAdminPage() {
       else next.add(l2Id)
       return next
     })
+  }
+
+  // Promote an affiliate to admin via API (uses the same promote logic)
+  const promoteToAdmin = async (userId: string, userName: string) => {
+    if (!confirm(`Promouvoir ${userName} en tant qu'Admin ?`)) return
+    try {
+      const response = await fetch('/api/super-admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: '', // Not used for promotion — the API detects existing user
+          password: '',
+          fullName: '',
+          role: 'admin',
+          promoteUserId: userId, // Signal to the API to promote this specific user
+          subdomain: '',
+          adminId: '',
+        }),
+      })
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.error)
+      toast.success(`✨ ${userName} promu en Admin !`)
+      fetchData()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erreur')
+    }
   }
 
   const fetchData = useCallback(async (search?: string) => {
@@ -389,7 +417,11 @@ export default function SuperAdminPage() {
       const result = await response.json()
       if (!response.ok) throw new Error(result.error)
 
-      toast.success('Utilisateur créé avec succès')
+      if (result.promoted) {
+        toast.success('✨ Affilié promu en Admin avec succès !')
+      } else {
+        toast.success('Utilisateur créé avec succès')
+      }
       setNewUser({ email: '', password: '', fullName: '', role: 'admin', subdomain: '', adminId: '' })
       fetchData()
     } catch (error) {
@@ -662,6 +694,7 @@ export default function SuperAdminPage() {
             {[
               { id: 'dashboard' as TabType, label: 'Dashboard', icon: BarChart3 },
               { id: 'admins' as TabType, label: 'Admins', icon: Building },
+              { id: 'marketplace' as TabType, label: 'Marketplace', icon: Store },
               { id: 'teams' as TabType, label: 'Équipes', icon: Users },
               { id: 'messaging' as TabType, label: 'Messagerie', icon: MessageSquare },
               { id: 'settings' as TabType, label: 'Paramètres', icon: Settings },
@@ -961,6 +994,9 @@ export default function SuperAdminPage() {
             </div>
           )}
 
+          {/* MARKETPLACE TAB */}
+          {activeTab === 'marketplace' && <MarketplaceManager mode="super_admin" />}
+
           {/* TEAMS TAB - Vue hiérarchique Admin → N2 → N3 */}
           {activeTab === 'teams' && (
             <div className="space-y-6">
@@ -1030,6 +1066,19 @@ export default function SuperAdminPage() {
                                     <Badge className="bg-blue-500/10 text-blue-300 border-blue-500/20 text-xs flex-shrink-0">
                                       Niveau 2
                                     </Badge>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      className="h-7 border-amber-500/30 text-amber-400 hover:bg-amber-500/10 text-xs flex-shrink-0"
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        promoteToAdmin(l2.id, l2.full_name || l2.email)
+                                      }}
+                                      title="Promouvoir en Admin"
+                                    >
+                                      <Crown className="w-3 h-3 mr-1" />
+                                      <span className="hidden sm:inline">Promouvoir</span>
+                                    </Button>
                                     {hasL3 && (
                                       <button
                                         onClick={(e) => { e.stopPropagation(); toggleL2(l2.id) }}
@@ -1064,6 +1113,19 @@ export default function SuperAdminPage() {
                                             <p className="text-zinc-500 text-xs truncate">{l3.email}</p>
                                           </div>
                                           <div className="flex items-center gap-2 flex-shrink-0">
+                                            <Button
+                                              variant="outline"
+                                              size="sm"
+                                              className="h-6 border-amber-500/30 text-amber-400 hover:bg-amber-500/10 text-xs px-2"
+                                              onClick={(e) => {
+                                                e.stopPropagation()
+                                                promoteToAdmin(l3.id, l3.full_name || l3.email)
+                                              }}
+                                              title="Promouvoir en Admin"
+                                            >
+                                              <Crown className="w-2.5 h-2.5 mr-1" />
+                                              <span className="hidden sm:inline">Promouvoir</span>
+                                            </Button>
                                             <Badge className={`text-xs ${l3.paypal_email ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20'}`}>
                                               <CreditCard className="w-2.5 h-2.5 mr-1" />
                                               {l3.paypal_email ? 'PayPal ✓' : 'PayPal ✗'}
