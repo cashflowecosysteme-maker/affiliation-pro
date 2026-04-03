@@ -31,6 +31,9 @@ import {
   MessageSquare,
   TrendingUp,
   MessageCircle,
+  ExternalLink,
+  Star,
+  Package,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
@@ -66,6 +69,17 @@ interface DashboardStats {
   weeklySales: { date: string; total: number; count: number }[]
 }
 
+interface MarketplaceProduct {
+  id: string
+  title: string
+  description_short: string
+  price: number
+  commission_n1: number
+  affiliate_link: string | null
+  image_url: string | null
+  category_name: string | null
+}
+
 interface DashboardData {
   profile: Profile & { paypal_email?: string | null }
   affiliate: (Affiliate & { program: { name: string; commission_l1: number; commission_l2: number; commission_l3: number } | null }) | null
@@ -74,6 +88,7 @@ interface DashboardData {
   isAdmin?: boolean
   team?: TeamMember[]
   messages?: AdminMessage[]
+  marketplaceProducts?: MarketplaceProduct[]
 }
 
 export default function DashboardPage() {
@@ -85,6 +100,8 @@ export default function DashboardPage() {
   const [showSettings, setShowSettings] = useState(false)
   const [paypalEmail, setPaypalEmail] = useState('')
   const [isSavingPaypal, setIsSavingPaypal] = useState(false)
+  const [copiedNyXia, setCopiedNyXia] = useState(false)
+  const [copiedProductLinks, setCopiedProductLinks] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
     fetchDashboard()
@@ -166,6 +183,22 @@ export default function DashboardPage() {
     })
   }
 
+  const nyxiaLink = `https://nyxiapublicationweb.com/?ref=${data?.profile?.affiliate_code || ''}`
+
+  const copyNyXiaLink = () => {
+    navigator.clipboard.writeText(nyxiaLink)
+    setCopiedNyXia(true)
+    toast.success('Lien NyXia copié !')
+    setTimeout(() => setCopiedNyXia(false), 2000)
+  }
+
+  const copyProductLink = (productId: string, link: string) => {
+    navigator.clipboard.writeText(link)
+    setCopiedProductLinks(prev => ({ ...prev, [productId]: true }))
+    toast.success('Lien produit copié !')
+    setTimeout(() => setCopiedProductLinks(prev => ({ ...prev, [productId]: false })), 2000)
+  }
+
   const handleNativeShare = () => {
     const link = data?.affiliate?.affiliate_link || `${window.location.origin}/r/${data?.profile?.affiliate_code}`
     const shareData = {
@@ -234,7 +267,7 @@ export default function DashboardPage() {
     )
   }
 
-  const { profile, affiliate, stats, team = [], messages = [] } = data
+  const { profile, affiliate, stats, team = [], messages = [], marketplaceProducts = [] } = data
   const referralLink = affiliate?.affiliate_link || `${typeof window !== 'undefined' ? window.location.origin : ''}/r/${profile.affiliate_code}`
   const totalReferrals = stats.l1Referrals + stats.l2Referrals + stats.l3Referrals
 
@@ -354,6 +387,71 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           )}
+
+          {/* Promouvoir NyXia — Produit Phare */}
+          <Card className="glass-card mb-8 border-amber-500/30 overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-transparent to-orange-500/10" />
+            <CardContent className="p-6 relative">
+              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Star className="w-5 h-5 text-amber-400" />
+                    <h3 className="text-lg font-semibold text-white">Promouvoir NyXia</h3>
+                    <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
+                      Produit phare
+                    </Badge>
+                  </div>
+                  <p className="text-zinc-400 text-sm mb-3">
+                    C&apos;est NOTRE produit phare — les ambassadeurs gagnent 25% de commission sur chaque vente de NyXia !
+                  </p>
+                  <div className="flex items-center gap-2 text-xs text-zinc-500">
+                    <ExternalLink className="w-3 h-3" />
+                    <a href={nyxiaLink} target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline">nyxiapublicationweb.com</a>
+                  </div>
+                </div>
+                <div className="w-full lg:w-auto space-y-3">
+                  <Label className="text-zinc-300 text-sm">Lien de promotion NyXia</Label>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 lg:w-96 bg-white/5 rounded-lg px-4 py-3 border border-amber-500/20 font-mono text-sm text-zinc-300 truncate">
+                      {nyxiaLink}
+                    </div>
+                    <Button onClick={copyNyXiaLink} className="glass-button shrink-0 h-11">
+                      {copiedNyXia ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 min-w-[120px] border-blue-500/30 text-blue-400 hover:bg-blue-500/10"
+                      onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(nyxiaLink)}`, '_blank')}
+                    >
+                      <Share2 className="w-4 h-4 mr-1" />
+                      Facebook
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 min-w-[120px] border-black/30 text-zinc-200 hover:bg-black/10 hover:text-white"
+                      onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('Découvrez NyXia !')}&url=${encodeURIComponent(nyxiaLink)}`, '_blank')}
+                    >
+                      <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                      X (Twitter)
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 min-w-[120px] border-green-500/30 text-green-400 hover:bg-green-500/10"
+                      onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(`Découvrez NyXia ! ${nyxiaLink}`)}`, '_blank')}
+                    >
+                      <MessageCircle className="w-4 h-4 mr-1" />
+                      WhatsApp
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Referral Link - Parrainer Section */}
           <Card className="glass-card mb-8 border-green-500/30 overflow-hidden relative">
@@ -500,6 +598,91 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Produits du Marketplace à promouvoir */}
+          <Card className="glass-card border-0 mb-8">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <Package className="w-5 h-5 text-cyan-400" />
+                Produits du Marketplace à promouvoir
+              </CardTitle>
+              <CardDescription className="text-zinc-400">
+                Copiez les liens de ces produits pour les promouvoir et gagner des commissions
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {(!data.marketplaceProducts || data.marketplaceProducts.length === 0) ? (
+                <div className="text-center py-8 text-zinc-500">
+                  <ShoppingCart className="w-10 h-10 mx-auto mb-2 opacity-30" />
+                  <p>Aucun produit disponible pour le moment</p>
+                  <p className="text-sm">Revenez plus tard pour découvrir de nouveaux produits</p>
+                </div>
+              ) : (
+                <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                  {data.marketplaceProducts.map((product) => (
+                    <div key={product.id} className="p-4 rounded-lg bg-white/5 border border-purple-500/10 hover:border-purple-500/30 transition-colors">
+                      <div className="flex flex-col md:flex-row md:items-center gap-4">
+                        {product.image_url && (
+                          <img
+                            src={product.image_url}
+                            alt={product.title}
+                            className="w-full md:w-20 h-20 object-cover rounded-lg border border-purple-500/20"
+                          />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="text-white font-medium truncate">{product.title}</h4>
+                            {product.category_name && (
+                              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 shrink-0">
+                                {product.category_name}
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-zinc-500 text-sm mb-2 line-clamp-2">{product.description_short}</p>
+                          <div className="flex items-center gap-3 text-sm">
+                            <span className="text-green-400 font-semibold">{formatCurrency(product.price)}</span>
+                            <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+                              Commission: {product.commission_n1}%
+                            </Badge>
+                          </div>
+                        </div>
+                        <div className="w-full md:w-auto space-y-2">
+                          {product.affiliate_link ? (
+                            <>
+                              <p className="text-xs text-purple-300 font-medium">Votre lien d&apos;affiliation :</p>
+                              <div className="flex items-center gap-2">
+                                <div className="flex-1 bg-black/30 rounded-lg px-3 py-2.5 border border-purple-500/30 font-mono text-sm text-white break-all">
+                                  {product.affiliate_link}
+                                </div>
+                                <Button
+                                  size="sm"
+                                  className="glass-button shrink-0 h-10 px-3"
+                                  onClick={() => copyProductLink(product.id, product.affiliate_link!)}
+                                >
+                                  {copiedProductLinks[product.id] ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                                </Button>
+                              </div>
+                              <a
+                                href={product.affiliate_link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm text-purple-400 hover:text-purple-300 hover:underline flex items-center gap-1.5 font-medium"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5" />
+                                Ouvrir le produit →
+                              </a>
+                            </>
+                          ) : (
+                            <p className="text-amber-400 text-sm">Lien bientôt disponible</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
           {/* 📊 Ventes de la semaine + Répartition des commissions */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">

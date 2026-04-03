@@ -135,3 +135,45 @@ CREATE INDEX IF NOT EXISTS idx_payouts_affiliate ON payouts(affiliate_id);
 CREATE INDEX IF NOT EXISTS idx_clicks_affiliate ON clicks(affiliate_id);
 CREATE INDEX IF NOT EXISTS idx_messages_sender ON messages(sender_id);
 CREATE INDEX IF NOT EXISTS idx_messages_recipient ON messages(recipient_id);
+
+-- =============================================
+-- MARKETPLACE TABLES
+-- =============================================
+
+-- Marketplace categories
+CREATE TABLE IF NOT EXISTS marketplace_categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  slug TEXT NOT NULL UNIQUE,
+  icon TEXT NOT NULL DEFAULT '📦',
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  active INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Marketplace products
+CREATE TABLE IF NOT EXISTS marketplace_products (
+  id TEXT PRIMARY KEY,
+  seller_id TEXT REFERENCES users(id) ON DELETE CASCADE,
+  category_id INTEGER NOT NULL REFERENCES marketplace_categories(id),
+  title TEXT NOT NULL,
+  description_short TEXT NOT NULL DEFAULT '',
+  description_long TEXT,
+  image_url TEXT,
+  price REAL NOT NULL DEFAULT 0,
+  commission_n1 REAL NOT NULL DEFAULT 25,
+  commission_n2 REAL NOT NULL DEFAULT 10,
+  commission_n3 REAL NOT NULL DEFAULT 5,
+  affiliate_link TEXT,
+  promo_code TEXT,
+  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('active', 'draft', 'archived')),
+  views_count INTEGER NOT NULL DEFAULT 0,
+  sales_count INTEGER NOT NULL DEFAULT 0,
+  featured INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_mp_category ON marketplace_products(category_id);
+CREATE INDEX IF NOT EXISTS idx_mp_status ON marketplace_products(status);
+CREATE INDEX IF NOT EXISTS idx_mp_seller ON marketplace_products(seller_id);

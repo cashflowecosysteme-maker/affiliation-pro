@@ -191,6 +191,17 @@ export async function GET(request: Request) {
       weeklySales.push({ date, total: data.total, count: data.count })
     })
 
+    // Get marketplace products (active only)
+    const marketplaceProducts = await db
+      .prepare(`SELECT p.id, p.title, p.description_short, p.price, p.commission_n1, p.affiliate_link, p.image_url, c.name as category_name
+        FROM marketplace_products p
+        LEFT JOIN marketplace_categories c ON p.category_id = c.id
+        WHERE p.status = ?
+        ORDER BY p.created_at DESC
+        LIMIT 20`)
+      .bind('active')
+      .all()
+
     return NextResponse.json({
       profile: user,
       affiliate,
@@ -206,6 +217,7 @@ export async function GET(request: Request) {
         recentSales: recentSales.results || [],
         weeklySales,
       },
+      marketplaceProducts: marketplaceProducts.results || [],
     })
   } catch (error: any) {
     console.error('Dashboard error:', error?.message || error)

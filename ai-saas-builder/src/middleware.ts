@@ -8,12 +8,15 @@ const PUBLIC_PATHS = [
   '/login',
   '/signup',
   '/logout',
+  '/marketplace',
+  '/ambassadeur',
 ]
 
 const PUBLIC_PREFIXES = [
   '/r/',
   '/api/webhooks/',
   '/api/auth/',
+  '/api/public/',
   '/api/test',
   '/api/debug',
   '/_next/',
