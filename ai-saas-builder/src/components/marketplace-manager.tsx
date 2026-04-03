@@ -67,6 +67,7 @@ interface Product {
   featured: number
   created_at: string
   updated_at: string
+  slug: string
 }
 
 interface MarketplaceManagerProps {
@@ -516,6 +517,30 @@ export default function MarketplaceManager({ mode }: MarketplaceManagerProps) {
                       </div>
                     )}
                   </div>
+
+                  {/* Product URL */}
+                  {product.slug && product.status === 'active' && (
+                    <div className="flex items-center gap-1.5 text-xs mt-2">
+                      <span className="text-zinc-500">URL:</span>
+                      <a
+                        href={`/ref/${product.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-purple-300 font-mono truncate max-w-[220px] hover:text-purple-200 underline"
+                      >
+                        affiliationpro.cashflowecosysteme.com/ref/{product.slug}
+                      </a>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(`${window.location.origin}/ref/${product.slug}`)
+                          toast.success('URL du produit copiée !')
+                        }}
+                        className="text-zinc-500 hover:text-purple-400"
+                      >
+                        <Copy className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
 
                   {/* Actions */}
                   <div className="flex md:flex-col gap-2 shrink-0">

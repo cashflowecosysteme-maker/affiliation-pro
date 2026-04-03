@@ -317,17 +317,17 @@
   background: linear-gradient(180deg, #a855f7, #60a5fa);
 }
 
-/* Pulse Animation */
+/* Pulse Animation - Heartbeat */
 .pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
+  animation: pulse-glow 3s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
   }
   50% {
-    box-shadow: 0 0 40px rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 35px rgba(139, 92, 246, 0.35);
   }
 }
 
@@ -421,6 +421,82 @@
       0 0 40px rgba(168, 85, 247, 0.5),
       0 0 60px rgba(168, 85, 247, 0.3);
   }
+}
+
+/* ===== PRICING CARD GLOW EFFECTS ===== */
+.pricing-card-wrapper {
+  position: relative;
+}
+
+.pricing-card-glow {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 60px;
+  border-radius: 50%;
+  filter: blur(35px);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pricing-card-wrapper:hover .pricing-card-glow {
+  opacity: 1;
+}
+
+/* Heartbeat glow — mauve pulsation for Pro card — ALWAYS visible */
+.glow-heartbeat-mauve {
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.7) 0%, rgba(139, 92, 246, 0.2) 50%, transparent 80%);
+  filter: blur(30px);
+  animation: heartbeat-glow 2.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes heartbeat-glow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateX(-50%) scaleX(1) scaleY(1);
+  }
+  14% {
+    opacity: 0.9;
+    transform: translateX(-50%) scaleX(1.08) scaleY(1.15);
+  }
+  28% {
+    opacity: 0.35;
+    transform: translateX(-50%) scaleX(1) scaleY(1);
+  }
+  42% {
+    opacity: 0.75;
+    transform: translateX(-50%) scaleX(1.05) scaleY(1.1);
+  }
+  56% {
+    opacity: 0.35;
+    transform: translateX(-50%) scaleX(1) scaleY(1);
+  }
+}
+
+/* Hover glow colors */
+.glow-hover-green {
+  background: radial-gradient(ellipse at center, rgba(34, 197, 94, 0.7) 0%, rgba(34, 197, 94, 0.2) 50%, transparent 80%);
+}
+
+.glow-hover-mauve {
+  background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.7) 0%, rgba(139, 92, 246, 0.2) 50%, transparent 80%);
+}
+
+.glow-hover-rosegold {
+  background: radial-gradient(ellipse at center, rgba(244, 114, 132, 0.6) 0%, rgba(251, 191, 36, 0.4) 30%, transparent 70%);
 }
 
 /* Text Reveal Animation */

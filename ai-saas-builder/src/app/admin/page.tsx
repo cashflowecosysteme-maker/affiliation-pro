@@ -26,6 +26,7 @@ import {
   CreditCard,
   Wallet,
   Copy,
+  Store,
   Check,
   Send,
   LogOut,
@@ -38,8 +39,9 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
+import MarketplaceManager from '@/components/marketplace-manager'
 
-type TabType = 'dashboard' | 'affiliates' | 'payouts' | 'settings'
+type TabType = 'dashboard' | 'affiliates' | 'marketplace' | 'payouts' | 'settings'
 
 interface Level3Member {
   id: string
@@ -386,6 +388,7 @@ export default function AdminDashboardPage() {
             {[
               { id: 'dashboard' as TabType, label: 'Dashboard', icon: BarChart3 },
               { id: 'affiliates' as TabType, label: 'Mon équipe', icon: Users },
+              { id: 'marketplace' as TabType, label: 'Marketplace', icon: Store },
               { id: 'payouts' as TabType, label: 'Paiements', icon: Wallet },
               { id: 'settings' as TabType, label: 'Paramètres', icon: Settings },
             ].map((tab) => (
@@ -642,6 +645,9 @@ export default function AdminDashboardPage() {
               </CardContent>
             </Card>
           )}
+
+          {/* MARKETPLACE TAB */}
+          {activeTab === 'marketplace' && <MarketplaceManager mode="admin" />}
 
           {/* PAYOUTS TAB */}
           {activeTab === 'payouts' && (

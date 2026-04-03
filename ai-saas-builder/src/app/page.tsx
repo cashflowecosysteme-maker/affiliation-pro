@@ -196,6 +196,11 @@ export default function Home() {
               </Button>
             </Link>
           </div>
+
+          {/* NyXia Image */}
+          <div className="flex justify-center mt-6 mb-8">
+            <img src="/NyXia-26.png" alt="NyXia" className="w-auto max-h-80 rounded-2xl drop-shadow-2xl" />
+          </div>
         </div>
       </section>
 
@@ -376,39 +381,42 @@ export default function Home() {
       <section id="pricing" className="relative z-10 px-6 py-24 md:px-12 lg:px-24">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/25 mb-6">
-              <Sparkles className="w-4 h-4 text-violet-400" />
-              <span className="text-violet-400 text-sm font-semibold tracking-wider uppercase">Tarification simple</span>
-            </div>
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-              Lance ton programme<br />
-              <span className="gradient-text">d'affiliation</span>
+              Lance ton programme <span className="gradient-text">d'affiliation</span>
             </h2>
             <p className="text-zinc-400 text-lg max-w-md mx-auto">Commence à 19 $. Scale quand tu es prêt.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start relative">
             {/* Ambient glow behind Pro card */}
             <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-violet-500/15 rounded-full blur-[120px] pointer-events-none" />
 
             {/* ─── STARTER ─── */}
-            <Card className="glass-card rounded-3xl p-8 glass-card-hover">
-              <CardContent className="p-0">
+            <div className="pricing-card-wrapper">
+              <div className="pricing-card-glow glow-hover-rosegold" />
+              <div className="glass-card rounded-3xl p-8 glass-card-hover relative z-10">
                 <div className="text-center mb-8">
-                  <p className="text-violet-400/80 font-bold tracking-widest uppercase text-sm mb-6">Starter</p>
-                  <div className="flex items-baseline justify-center gap-1 mb-2">
-                    <span className="text-zinc-500 text-2xl font-semibold">19 $</span>
+                  <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-violet-400/80 mb-6">
+                    <span className="text-white font-bold text-xs tracking-wider uppercase">TON DÉPART</span>
                   </div>
-                  <p className="text-zinc-500 text-sm">Paiement unique · À vie</p>
+                  <p className="text-violet-400/80 font-bold tracking-widest uppercase text-lg mb-6">Starter</p>
+                  <p className="text-zinc-500 text-xs uppercase tracking-wider mb-2">CAS</p>
+                  <div className="flex items-baseline justify-center gap-1 mb-2">
+                    <span className="text-6xl font-black text-white">19</span>
+                  </div>
+                  <p className="text-zinc-500 text-sm">par mois</p>
                 </div>
+                <p className="text-zinc-400 text-xs text-center mb-6 leading-relaxed">
+                  L'IA NyXia crée votre site d'affiliation en 60 secondes. Puis elle publie automatiquement du contenu 24h/24 et 7j/7... Gagnez du temps et de l'argent grâce à notre IA qui travaille pour toi en permanence.
+                </p>
                 <ul className="space-y-3 mb-8">
                   {[
-                    "Programme d'affiliation basique",
-                    "Jusqu'à 10 affiliés",
-                    "1 niveau de commissions",
-                    "Dashboard affilié simple",
-                    "Page d'inscription personnalisée",
-                    "Support communauté",
+                    "🤖 IA automatisée",
+                    "📘 Publication Facebook",
+                    "📅 Calendrier éditorial",
+                    "🎨 Templates design",
+                    "⚡ Vitesse de création",
+                    "🎯 ZÉRO Compétences requises",
                   ].map((feature, i) => (
                     <li key={i} className="flex items-center gap-3 text-zinc-300 text-sm">
                       <Check className="w-4 h-4 text-green-500 shrink-0" />
@@ -416,39 +424,42 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <Link href="/signup" className="block">
+                <a href="https://www.publication-web.com/affiliation/paiement" className="block">
                   <Button size="lg" variant="outline" className="w-full rounded-xl border-violet-500/30 text-white hover:bg-violet-500/10 hover:border-violet-500/50 transition-all py-5">
                     Commencer
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
-                </Link>
-              </CardContent>
-            </Card>
+                </a>
+              </div>
+            </div>
 
             {/* ─── PRO (Featured) ─── */}
-            <Card className="glass-card rounded-3xl p-8 md:scale-105 md:-my-4 relative border-violet-500/50 glow-pulse-intense shimmer z-10">
-              {/* Badge flottant */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
-                <Badge className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-5 py-1.5 rounded-full shadow-lg shadow-violet-500/40 text-xs font-bold tracking-wider border-0">
-                  ⭐ Le plus populaire
-                </Badge>
-              </div>
-              <CardContent className="p-0">
-                <div className="text-center mb-8 mt-2">
-                  <p className="text-violet-400 font-bold tracking-widest uppercase text-sm mb-6">Pro</p>
-                  <div className="flex items-baseline justify-center gap-1 mb-2">
-                    <span className="text-5xl font-black text-white gradient-text">39 $</span>
+            <div className="pricing-card-wrapper">
+              <div className="glow-heartbeat-mauve" />
+              <div className="pricing-card-glow glow-hover-mauve" />
+              <div className="glass-card rounded-3xl p-8 md:scale-105 md:-my-4 relative border border-violet-500/50 z-10">
+                <div className="text-center mb-8">
+                  <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-violet-600 mb-6">
+                    <span className="text-white font-bold text-xs tracking-wider uppercase">⭐ LE PLUS POPULAIRE</span>
                   </div>
-                  <p className="text-zinc-500 text-sm">par mois · Sans engagement</p>
+                  <p className="text-violet-400 font-bold tracking-widest uppercase text-lg mb-6">Pro</p>
+                  <p className="text-zinc-500 text-xs uppercase tracking-wider mb-2">CAS</p>
+                  <div className="flex items-baseline justify-center gap-1 mb-2">
+                    <span className="text-6xl font-black text-white gradient-text">39</span>
+                  </div>
+                  <p className="text-zinc-500 text-sm">par mois · Pour les entreprises en croissance</p>
                 </div>
                 <ul className="space-y-3 mb-8">
                   {[
+                    "Tout ce que comprend le Starter",
+                    "Création Site Web illimité par NyXia",
                     "3 niveaux de commissions",
-                    "Affiliés illimités",
+                    "Collaborateurs de cœur illimités",
                     "Marque blanche",
                     "Dashboard ultra-complet",
                     "API + Webhooks multiples",
                     "Emails avancés",
+                    "Assistance IA NyXia 24h/7j",
                     "Support prioritaire",
                   ].map((feature, i) => (
                     <li key={i} className="flex items-center gap-3 text-zinc-300 text-sm">
@@ -458,32 +469,37 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link href="/signup" className="block">
-                  <Button size="lg" className="w-full rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 text-white border-0 py-5 text-base font-semibold shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-[1.02] transition-all group">
-                    Démarrer maintenant
+                  <Button size="lg" className="w-full rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 text-white border-0 py-5 text-base font-semibold shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 transition-all group">
+                    Accéder à Pro
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            {/* ─── AGENCE ─── */}
-            <Card className="glass-card rounded-3xl p-8 glass-card-hover">
-              <CardContent className="p-0">
+            {/* ─── META-PRESENCE ─── */}
+            <div className="pricing-card-wrapper">
+              <div className="pricing-card-glow glow-hover-green" />
+              <div className="glass-card rounded-3xl p-8 glass-card-hover relative z-10">
                 <div className="text-center mb-8">
-                  <p className="text-violet-400/80 font-bold tracking-widest uppercase text-sm mb-6">Agence</p>
-                  <div className="flex items-baseline justify-center gap-1 mb-2">
-                    <span className="text-zinc-500 text-2xl font-semibold">97 $</span>
+                  <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-green-500 mb-6">
+                    <span className="text-white font-bold text-xs tracking-wider uppercase">LE PRODUIT PHARE</span>
                   </div>
-                  <p className="text-zinc-500 text-sm">par mois · Multi-comptes</p>
+                  <p className="text-green-400/80 font-bold tracking-widest uppercase text-lg mb-6">Meta-Presence</p>
+                  <p className="text-zinc-500 text-xs uppercase tracking-wider mb-2">CA$</p>
+                  <div className="flex items-baseline justify-center gap-1 mb-2">
+                    <span className="text-6xl font-black text-white">97</span>
+                  </div>
+                  <p className="text-zinc-500 text-sm">une fois · Ta présence Meta construite en 24h</p>
                 </div>
                 <ul className="space-y-3 mb-8">
                   {[
-                    "Tout le plan Pro",
-                    "Multi-comptes clients",
-                    "Gestionnaire de compte dédié",
-                    "API complète",
-                    "Intégration sur mesure",
-                    "Rapports avancés",
+                    "Page Facebook professionnelle",
+                    "IA personnalisée — DM automatiques",
+                    "30 jours de publications générées par IA",
+                    "Redirection 10 000 followers en 90 jours",
+                    "Monétise Meta — revenus automatiques",
+                    "Support inclus",
                   ].map((feature, i) => (
                     <li key={i} className="flex items-center gap-3 text-zinc-300 text-sm">
                       <Check className="w-4 h-4 text-green-500 shrink-0" />
@@ -492,13 +508,13 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link href="/signup" className="block">
-                  <Button size="lg" variant="outline" className="w-full rounded-xl border-violet-500/30 text-white hover:bg-violet-500/10 hover:border-violet-500/50 transition-all py-5">
-                    Nous contacter
-                    <ArrowRight className="w-4 h-4 ml-2" />
+                  <Button size="lg" className="w-full rounded-xl bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white border-0 py-5 text-base font-semibold shadow-lg shadow-green-500/30 hover:shadow-green-500/50 transition-all group">
+                    Le produit phare
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </section>

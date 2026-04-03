@@ -144,14 +144,31 @@ export async function POST(request: NextRequest) {
     // Generate ID
     const productId = `mp_${(await db.prepare("SELECT lower(hex(randomblob(8))) as id").first()).id}`
 
+    // Auto-generate slug from title
+    const slug = title
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove accents
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '') // Keep only letters, numbers, spaces, hyphens
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/-+/g, '-') // Collapse multiple hyphens
+      .trim()
+
+    // Ensure slug is unique by appending random suffix if needed
+    let finalSlug = slug
+    const existing = await db.prepare('SELECT id FROM marketplace_products WHERE slug = ?').bind(finalSlug).first()
+    if (existing) {
+      const randomSuffix = (await db.prepare("SELECT lower(hex(randomblob(4))) as id").first()).id
+      finalSlug = `${slug}-${randomSuffix}`
+    }
+
     const now = new Date().toISOString()
 
     await db.prepare(`
       INSERT INTO marketplace_products (
         id, seller_id, category_id, title, description_short, description_long,
         image_url, price, commission_n1, commission_n2, commission_n3,
-        affiliate_link, promo_code, status, created_at, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        affiliate_link, promo_code, status, created_at, updated_at, slug
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).bind(
       productId,
       session.userId,
@@ -168,10 +185,11 @@ export async function POST(request: NextRequest) {
       promo_code || null,
       'draft',
       now,
-      now
+      now,
+      finalSlug
     ).run()
 
-    return NextResponse.json({ success: true, productId })
+    return NextResponse.json({ success: true, productId, slug: finalSlug })
   } catch (error) {
     console.error('Marketplace product create error:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
