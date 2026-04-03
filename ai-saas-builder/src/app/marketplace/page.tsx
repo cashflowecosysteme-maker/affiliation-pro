@@ -17,6 +17,8 @@ import {
   Lightbulb,
   Star,
   DollarSign,
+  X,
+  LinkIcon,
 } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -24,6 +26,7 @@ interface MarketplaceProduct {
   id: string
   title: string
   description_short: string
+  description_long: string | null
   price: number
   commission_n1: number
   commission_n2: number | null
@@ -37,6 +40,7 @@ export default function MarketplacePage() {
   const [products, setProducts] = useState<MarketplaceProduct[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [copiedLinks, setCopiedLinks] = useState<Record<string, boolean>>({})
+  const [selectedProduct, setSelectedProduct] = useState<MarketplaceProduct | null>(null)
 
   useEffect(() => {
     fetchProducts()
@@ -119,7 +123,7 @@ export default function MarketplacePage() {
               🛍️ Marketplace
             </h1>
             <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-              Découvrez nos produits recommandés et obtenez leurs liens d&apos;affiliation
+              Découvrez nos produits recommandés
             </p>
           </div>
 
@@ -135,7 +139,11 @@ export default function MarketplacePage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
               {products.map((product) => (
-                <Card key={product.id} className="glass-card border-0 glass-card-hover overflow-hidden group">
+                <Card
+                  key={product.id}
+                  className="glass-card border-0 glass-card-hover overflow-hidden group cursor-pointer"
+                  onClick={() => setSelectedProduct(product)}
+                >
                   {/* Product Image */}
                   {product.image_url && (
                     <div className="relative h-48 overflow-hidden">
@@ -198,56 +206,24 @@ export default function MarketplacePage() {
                       </div>
                     )}
 
-                    {/* Affiliate Link */}
-                    {product.affiliate_link ? (
-                      <div className="space-y-3">
-                        <div className="bg-white/5 rounded-lg px-3 py-3 border border-purple-500/30">
-                          <p className="text-xs text-purple-300 font-medium mb-1.5 flex items-center gap-1">
-                            <ExternalLink className="w-3 h-3" />
-                            Votre lien d&apos;affiliation :
-                          </p>
-                          <div className="flex items-center gap-2">
-                            <div className="flex-1 bg-black/30 rounded-md px-3 py-2.5 border border-purple-500/20 font-mono text-sm text-white break-all">
-                              {product.affiliate_link}
-                            </div>
-                            <Button
-                              size="sm"
-                              className="glass-button shrink-0 h-10 px-3"
-                              onClick={() => copyLink(product.id, product.affiliate_link!)}
-                            >
-                              {copiedLinks[product.id] ? (
-                                <Check className="w-4 h-4 text-green-500" />
-                              ) : (
-                                <Copy className="w-4 h-4" />
-                              )}
-                            </Button>
-                          </div>
-                        </div>
-                        <a
-                          href={product.affiliate_link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm text-purple-400 hover:text-purple-300 hover:underline flex items-center gap-1.5 transition-colors font-medium"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          Visiter le produit →
-                        </a>
-                      </div>
-                    ) : (
-                      <div className="bg-amber-500/10 rounded-lg px-3 py-2 border border-amber-500/20">
-                        <p className="text-amber-400 text-sm flex items-center gap-1.5">
-                          <Lightbulb className="w-4 h-4" />
-                          Lien bientôt disponible
-                        </p>
-                      </div>
-                    )}
+                    {/* CTA: Voir le produit */}
+                    <Button
+                      className="w-full glass-button text-white"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setSelectedProduct(product)
+                      }}
+                    >
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Voir le produit
+                    </Button>
                   </CardContent>
                 </Card>
               ))}
             </div>
           )}
 
-          {/* Banner */}
+          {/* Banner Commission */}
           <Card className="glass-card border-amber-500/30 overflow-hidden relative mb-8">
             <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-transparent to-purple-500/10" />
             <CardContent className="p-6 md:p-8 relative">
@@ -260,7 +236,7 @@ export default function MarketplacePage() {
                     💡 Pour recevoir des commissions sur tes ventes, tu dois t&apos;inscrire comme ambassadeur.
                   </h3>
                   <p className="text-zinc-400 text-sm">
-                    Sinon, merci de nous référer à vos amis ! Rejoins notre programme d&apos;affiliation et commence à gagner de l&apos;argent en promouvant nos produits.
+                    Sinon, réfère-nous à vos amis ! Rejoins notre programme d&apos;affiliation et commence à gagner de l&apos;argent en promouvant nos produits.
                   </p>
                 </div>
                 <Link href="/ambassadeur" className="shrink-0">
@@ -285,6 +261,163 @@ export default function MarketplacePage() {
           </div>
         </div>
       </main>
+
+      {/* ===== MODAL PRODUIT ===== */}
+      {selectedProduct && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          onClick={() => setSelectedProduct(null)}
+        >
+          <div
+            className="glass-card border border-purple-500/20 bg-[#0c1222] w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header avec image */}
+            {selectedProduct.image_url && (
+              <div className="relative h-56 overflow-hidden rounded-t-2xl">
+                <img
+                  src={selectedProduct.image_url}
+                  alt={selectedProduct.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0c1222] via-transparent to-transparent" />
+                <button
+                  onClick={() => setSelectedProduct(null)}
+                  className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm flex items-center justify-center text-white hover:bg-black/80 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+                <div className="absolute top-3 left-3">
+                  <Badge className="bg-purple-500/80 text-white border-0 backdrop-blur-sm">
+                    {selectedProduct.category_name || 'Produit'}
+                  </Badge>
+                </div>
+              </div>
+            )}
+
+            {/* Modal Body */}
+            <div className="p-6">
+              {!selectedProduct.image_url && (
+                <div className="flex items-center justify-between mb-4">
+                  <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+                    {selectedProduct.category_name || 'Produit'}
+                  </Badge>
+                  <button
+                    onClick={() => setSelectedProduct(null)}
+                    className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/20 transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+
+              {/* Titre */}
+              <h2 className="text-2xl font-bold text-white mb-2">
+                {selectedProduct.title}
+              </h2>
+
+              {/* Prix */}
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-2xl font-bold text-green-400">
+                  {formatCurrency(selectedProduct.price)}
+                </span>
+                <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
+                  {selectedProduct.commission_n1}% commission
+                </Badge>
+              </div>
+
+              {/* Description */}
+              <p className="text-zinc-400 text-sm mb-6 leading-relaxed">
+                {selectedProduct.description_short}
+              </p>
+
+              {/* Commissions niveaux */}
+              {(selectedProduct.commission_n2 || selectedProduct.commission_n3) && (
+                <div className="flex gap-3 mb-6">
+                  <div className="flex-1 text-center p-3 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                    <p className="text-purple-300 font-semibold">{selectedProduct.commission_n1}%</p>
+                    <p className="text-xs text-zinc-500">Niveau 1</p>
+                  </div>
+                  {selectedProduct.commission_n2 !== null && (
+                    <div className="flex-1 text-center p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                      <p className="text-blue-300 font-semibold">{selectedProduct.commission_n2}%</p>
+                      <p className="text-xs text-zinc-500">Niveau 2</p>
+                    </div>
+                  )}
+                  {selectedProduct.commission_n3 !== null && (
+                    <div className="flex-1 text-center p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+                      <p className="text-green-300 font-semibold">{selectedProduct.commission_n3}%</p>
+                      <p className="text-xs text-zinc-500">Niveau 3</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ===== LIEN DU CLIENT — TOUJOURS VISIBLE ===== */}
+              <div className="border-t border-purple-500/20 pt-5">
+                {selectedProduct.affiliate_link ? (
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-sm font-semibold text-white mb-1 flex items-center gap-2">
+                        <LinkIcon className="w-4 h-4 text-green-400" />
+                        Lien du produit
+                      </p>
+                      <p className="text-xs text-zinc-500 mb-3">
+                        Cliquez sur le lien ou copiez-le pour accéder au produit
+                      </p>
+                    </div>
+
+                    {/* Le lien VISIBLE en entier */}
+                    <div className="bg-green-500/5 rounded-xl px-4 py-4 border border-green-500/30">
+                      <div className="font-mono text-sm text-white break-all leading-relaxed select-all">
+                        {selectedProduct.affiliate_link}
+                      </div>
+                    </div>
+
+                    {/* Boutons d'action */}
+                    <div className="flex gap-3">
+                      <Button
+                        className="flex-1 glass-button text-white py-5 text-base"
+                        onClick={() => copyLink(selectedProduct.id, selectedProduct.affiliate_link!)}
+                      >
+                        {copiedLinks[selectedProduct.id] ? (
+                          <>
+                            <Check className="w-4 h-4 mr-2 text-green-400" />
+                            Copié !
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-4 h-4 mr-2" />
+                            Copier le lien
+                          </>
+                        )}
+                      </Button>
+                      <a
+                        href={selectedProduct.affiliate_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1"
+                      >
+                        <Button className="w-full bg-green-500 hover:bg-green-600 text-white py-5 text-base font-semibold">
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Ouvrir le lien
+                        </Button>
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-amber-500/10 rounded-lg px-4 py-3 border border-amber-500/20">
+                    <p className="text-amber-400 text-sm flex items-center gap-2">
+                      <Lightbulb className="w-4 h-4" />
+                      Le lien du produit sera bientôt ajouté
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
