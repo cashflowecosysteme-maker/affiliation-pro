@@ -112,67 +112,34 @@ export default function Home() {
       <section className="relative z-10 px-6 pt-16 pb-24 md:px-12 lg:px-24">
         <div className="max-w-6xl mx-auto text-center">
           <Badge className="mb-6 glass-button border-purple-500/30 text-purple-300 shimmer">
-            🚀 Alternative à l'affiliation Systeme.io
+            💜 Le Portail du Cercle du Miroir
           </Badge>
           
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight slide-in-up">
-            <span className="text-white">Ton programme d'affiliation</span>
+            <span className="text-white">Offre à tes clientes une présence</span>
             <br />
-            <span className="relative inline-block">
+            <span className="text-white">qui ne s&apos;éteint jamais.</span>
+            <br />
+            <span className="relative inline-block mt-2">
               {/* Glow effect behind text */}
               <span className="absolute inset-0 blur-2xl opacity-60 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 animate-pulse" style={{ transform: 'scale(1.5)' }} />
-              <span className="relative gradient-text">prêt en 5 minutes</span>
+              <span className="relative gradient-text">Sans t&apos;éteindre, toi.</span>
             </span>
           </h1>
           
-          {/* MEGA ARGUMENT - Punch pour les orphelins Systeme.io */}
-          <div className="relative max-w-4xl mx-auto mb-10 mt-20">
-            {/* Glow background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-red-500/15 via-purple-500/15 to-green-500/15 blur-3xl rounded-3xl" />
-            
-            <div className="relative p-8 md:p-10 rounded-2xl border border-purple-500/40 bg-gradient-to-br from-purple-500/10 to-blue-500/10 backdrop-blur-sm">
-              {/* Ligne 1 - Le problème - BADGE PLUS GRAND */}
-              <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 mb-6">
-                <span className="px-6 py-3 rounded-full bg-red-500/30 border-2 border-red-500/50 text-red-100 text-lg md:text-xl font-bold animate-pulse shadow-lg shadow-red-500/20">
-                  ⚠️ Systeme.io a fermé son affiliation
-                </span>
-                <span className="text-zinc-300 text-2xl hidden md:block">→</span>
-                <span className="text-white font-bold text-xl md:text-2xl">
-                  Tu cherches une alternative ?
-                </span>
-              </div>
-              
-              {/* Ligne 2 - La solution */}
-              <div className="text-center">
-                <p className="text-2xl md:text-3xl font-bold text-white mb-5">
-                  Crée ton propre programme d'affiliation
-                </p>
-                <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-                  <span className="flex items-center gap-2 text-purple-300 font-bold text-lg">
-                    <span className="w-8 h-8 rounded-full bg-purple-500/30 flex items-center justify-center text-lg">📊</span>
-                    3 niveaux de commissions
-                  </span>
-                  <span className="flex items-center gap-2 text-blue-300 font-bold text-lg">
-                    <span className="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center text-lg">🎯</span>
-                    Dashboard complet
-                  </span>
-                  <span className="flex items-center gap-2 text-green-300 font-bold text-lg">
-                    <span className="w-8 h-8 rounded-full bg-green-500/30 flex items-center justify-center text-lg">⚡</span>
-                    Automatisation totale
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Sous-titre */}
+          <p className="text-lg md:text-xl text-zinc-300 max-w-3xl mx-auto mb-10 mt-6 leading-relaxed">
+            NyXia prolonge ta douceur auprès de celles que tu accompagnes — jour après jour, même quand tu n&apos;es pas là. Tu offres plus, en portant moins. Et toi, tu retrouves enfin de l&apos;espace pour respirer.
+          </p>
           
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            <Link href="/signup">
+            <a href="https://m.me/LeMiroirdeNyXia" target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="glass-button text-white border-0 px-8 py-6 text-lg group">
-                🚀 Créer mon compte gratuit
+                Rejoindre le Miroir
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-            </Link>
+            </a>
             <Link href="#howitworks">
               <Button size="lg" variant="outline" className="border-purple-500/30 text-zinc-300 hover:text-white hover:bg-purple-500/10 px-8 py-6 text-lg">
                 Comment ça marche ?
@@ -182,7 +149,7 @@ export default function Home() {
 
           {/* NyXia Image */}
           <div className="flex justify-center mt-6 mb-8">
-            <img src="/NyXia-26.png" alt="NyXia" className="w-auto max-h-80 rounded-2xl drop-shadow-2xl" />
+            <img src="/NyXia_Praticienne_SansTexte.png" alt="NyXia prolonge la présence de la praticienne auprès de ses clientes, même au repos" className="w-full max-w-4xl rounded-2xl drop-shadow-2xl border border-purple-500/20" />
           </div>
         </div>
       </section>
