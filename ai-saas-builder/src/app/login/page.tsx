@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Sparkles, Loader2, LogIn } from 'lucide-react'
+import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
 import { login } from '@/lib/auth-client'
 
@@ -71,10 +71,8 @@ function LoginForm() {
     <Card className="glass-card w-full max-w-md relative z-10">
       <CardHeader className="text-center">
         <div className="flex items-center justify-center gap-2 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-xl font-bold gradient-text">AffiliationPro</span>
+          <img src="/Diamand_NyXia.png" alt="NyXia" className="w-10 h-10 object-contain" />
+          <span className="text-xl font-bold gradient-text">NyXia</span>
         </div>
         <CardTitle className="text-2xl text-white">Connexion</CardTitle>
         <CardDescription className="text-zinc-400">
@@ -127,13 +125,6 @@ function LoginForm() {
             )}
           </Button>
         </form>
-
-        <div className="mt-6 text-center text-sm text-zinc-400">
-          Pas encore de compte ?{' '}
-          <Link href="/signup" className="text-purple-400 hover:text-purple-300 font-medium">
-            S&apos;inscrire gratuitement
-          </Link>
-        </div>
 
         <div className="mt-4 text-center text-xs text-zinc-500">
           <Link href="/" className="hover:text-zinc-400">
