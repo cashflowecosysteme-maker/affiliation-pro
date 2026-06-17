@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { StarryBackground } from "@/components/starry-background";
 import { LogoSlider } from "@/components/logo-slider";
 import { FloatingOrbs, FloatingParticles } from "@/components/premium-animations";
@@ -21,8 +20,6 @@ import {
   Mail,
   LayoutDashboard,
   Settings,
-  Crown,
-  Heart,
 } from "lucide-react";
 
 export default function Home() {
@@ -154,60 +151,47 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Done For You Section */}
-      <section className="relative z-10 px-6 py-12 md:px-12 lg:px-24">
+      {/* Ce que tu n'as plus à porter seule */}
+      <section className="relative z-10 px-6 py-20 md:px-12 lg:px-24">
         <div className="max-w-6xl mx-auto">
-          <div className="glass-card rounded-3xl p-8 md:p-12 border border-green-500/30 bg-gradient-to-br from-green-500/5 via-transparent to-emerald-500/5 spotlight">
-            <div className="flex flex-col lg:flex-row items-center gap-8">
-              {/* Image */}
-              <div className="w-full lg:w-1/2 flex justify-center">
-                <div className="relative w-full max-w-md aspect-[3/2] rounded-2xl overflow-hidden border-2 border-green-500/20 shadow-2xl shadow-green-500/10 float">
-                  <Image
-                    src="/heureuse.png"
-                    alt="Femme heureuse - Done For You"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/30 to-transparent" />
-                </div>
+          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+            {/* Image NyXia — halo + flottement */}
+            <div className="w-full lg:w-5/12 flex justify-center">
+              <div className="relative float">
+                {/* Halo lumineux */}
+                <div className="absolute inset-0 -m-10 bg-gradient-to-br from-purple-600/40 via-fuchsia-500/25 to-blue-600/30 blur-3xl rounded-full" />
+                <img
+                  src="/NyXia-27gauche.png"
+                  alt="NyXia accompagne la praticienne, jour après jour"
+                  className="relative w-auto max-h-[30rem] drop-shadow-2xl"
+                />
               </div>
-              
-              {/* Content */}
-              <div className="w-full lg:w-1/2 text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/30">
-                  <Crown className="w-5 h-5 text-green-400" />
-                  <span className="text-green-300 font-semibold">100% Done For You</span>
-                </div>
-                
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  <span className="text-green-400">Zéro Technique.</span>
-                  <br />
-                  <span className="text-green-400">Zéro Effort.</span>
-                  <br />
-                  <span className="gradient-text">Zéro Stress.</span>
-                </h2>
-                
-                <p className="text-zinc-300 text-lg mb-6 leading-relaxed">
-                  Tu paies. Tu cliques. <span className="text-green-400 font-semibold">L'IA fait tout le reste</span> pendant que tu profites de ta vie.
-                </p>
-                
-                <div className="space-y-3 mb-6">
-                  {[
-                    "Ton employé numérique 24h/24 et 7j/7",
-                    "L'IA travaille pendant que tu dors",
-                    "Tu te réveilles avec des résultats",
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-3 justify-center lg:justify-start">
-                      <Heart className="w-5 h-5 text-pink-400 fill-pink-400" />
-                      <span className="text-zinc-300">{item}</span>
+            </div>
+
+            {/* Contenu */}
+            <div className="w-full lg:w-7/12 text-center lg:text-left">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 leading-tight">
+                Ce que tu n&apos;as plus à <span className="gradient-text">porter seule.</span>
+              </h2>
+              <p className="text-zinc-300 text-lg mb-8 leading-relaxed">
+                Tu donnes déjà tellement. Laisse NyXia porter le reste.
+              </p>
+
+              <div className="space-y-5">
+                {[
+                  { e: "🌙", t: "Ta présence en ligne, tenue pour toi.", d: "Pendant que tu te reposes, NyXia reste là pour les tiennes — elle répond, elle accompagne, avec ta douceur." },
+                  { e: "💜", t: "Un accompagnement constant pour tes clientes.", d: "Même les jours où tu n'as plus rien à donner, celles que tu accompagnes ne sont jamais laissées seules." },
+                  { e: "✨", t: "La technique, sans toi.", d: "Aucune ligne de code, aucun montage. Tu n'as pas à devenir informaticienne pour offrir une présence à la hauteur de ton cœur." },
+                  { e: "🤍", t: "Ta méthode, ton âme, au centre.", d: "NyXia ne te remplace pas — elle prolonge ce que tu fais déjà de plus beau. C'est toujours toi qu'on retrouve dedans." },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-4 text-left">
+                    <span className="text-2xl leading-none mt-1 shrink-0">{item.e}</span>
+                    <div>
+                      <h3 className="text-white font-semibold text-lg mb-1">{item.t}</h3>
+                      <p className="text-zinc-400 leading-relaxed">{item.d}</p>
                     </div>
-                  ))}
-                </div>
-                
-                <p className="text-zinc-400 text-sm italic">
-                  "Je paie, je clic, c'est fait. Je ne réfléchis plus." ✨
-                </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
