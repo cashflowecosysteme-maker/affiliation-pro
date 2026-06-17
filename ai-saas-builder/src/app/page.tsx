@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { StarryBackground } from "@/components/starry-background";
-import { LogoSlider } from "@/components/logo-slider";
 import { FloatingOrbs, FloatingParticles } from "@/components/premium-animations";
 import { NyXiaWidget } from "@/components/nyxia-widget";
 import { Button } from "@/components/ui/button";
@@ -198,9 +197,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Logo Slider - Trust Section */}
-      <LogoSlider />
-
       {/* Features Section */}
       <section id="features" className="relative z-10 px-6 py-24 md:px-12 lg:px-24">
         <div className="max-w-6xl mx-auto">
@@ -325,8 +321,71 @@ export default function Home() {
               </Button>
             </a>
             <a href="https://www.skool.com/refuge-amie-dans-le-miroir-2876" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" variant="outline" className="border-purple-500/30 text-zinc-200 hover:text-white hover:bg-purple-500/10 px-8 py-6 text-lg">
+              <Button size="lg" variant="outline" className="border-purple-400/15 text-zinc-400 bg-white/[0.02] opacity-75 hover:opacity-100 hover:text-zinc-100 hover:border-purple-400/40 px-8 py-6 text-lg transition-all duration-300">
                 ✨ Rejoindre le Cercle (gratuit)
+              </Button>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Ce que le Cercle te rend */}
+      <section className="relative z-10 px-6 py-24 md:px-12 lg:px-24">
+        <div className="max-w-5xl mx-auto">
+          {/* Bannière */}
+          <div className="relative mb-14 rounded-3xl overflow-hidden border border-purple-500/20 shadow-2xl">
+            <img src="/Enfin_on_te_voit_.png" alt="Le miroir du Cercle te renvoie enfin ta propre lumière" className="w-full h-auto" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
+          </div>
+
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
+              Ce que le Cercle te <span className="gradient-text">rend.</span>
+            </h2>
+            <p className="text-zinc-300 text-lg max-w-2xl mx-auto">
+              Tu donnes sans compter. Ici, pour une fois, c&apos;est toi qu&apos;on entoure.
+            </p>
+          </div>
+
+          <div className="space-y-8 max-w-3xl mx-auto">
+            {[
+              {
+                e: "🌟",
+                t: "Enfin, on te voit — par les bonnes personnes.",
+                d: "Tu rêves peut-être d'être plus visible, d'accueillir plus de femmes, d'en aider davantage. Et tu te dis sûrement que les réseaux le font déjà. Mais là-bas, es-tu vraiment vue — ou noyée dans le bruit, parfois même heurtée par la dureté des inconnus? Ici, c'est tout l'inverse : pas de trolls, pas de vacarme. Un cercle de femmes qui se portent les unes les autres, et une vitrine où celles qui cherchent une présence comme la tienne te trouvent enfin. Une puissance de réseautage que les grands réseaux généralistes ne t'offriront jamais : être vue par les bonnes personnes, dans un espace qui te protège.",
+              },
+              {
+                e: "💜",
+                t: "Tu n'es plus seule à porter le chemin.",
+                d: "Autour de toi, des femmes qui accompagnent comme toi — qui comprennent ta fatigue autant que ta vocation. Un cercle où, pour une fois, tu peux déposer ce que tu portes, et te sentir comprise sans avoir à t'expliquer. Tu n'es plus seule.",
+              },
+              {
+                e: "🤍",
+                t: "Tes clientes aussi y ont droit — et ça ne te coûte pas ta place.",
+                d: "Offrir NyXia à celles que tu accompagnes ne fait jamais concurrence à tes tarifs : elle prolonge ta présence entre vos rencontres, sans jamais te remplacer. Tes clientes ne ressentent pas une dépense de plus — elles reçoivent un accompagnement constant et tendre, un « wow » irrésistible qui les fait se sentir tenues même quand tu n'es pas là. Et quand l'une d'elles choisit cette présence par ton lien, ton propre chemin s'allège à son tour.",
+              },
+            ].map((item, i) => (
+              <div key={i} className="flex gap-4">
+                <span className="text-3xl leading-none shrink-0 mt-1">{item.e}</span>
+                <div>
+                  <h3 className="text-white font-semibold text-xl mb-2">{item.t}</h3>
+                  <p className="text-zinc-400 leading-relaxed">{item.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Le désir → la porte */}
+          <div className="max-w-2xl mx-auto text-center mt-16">
+            <p className="text-xl md:text-2xl text-white font-semibold mb-3">
+              Et là, tu te demandes peut-être : comment, moi, j&apos;ai accès à tout ça?
+            </p>
+            <p className="text-zinc-300 text-lg mb-8 leading-relaxed">
+              C&apos;est tout simple. Écris-moi sur Messenger — un vrai message, toi et moi (Diane). Pas d&apos;appel de vente, pas de rendez-vous à bloquer dans ton agenda. Juste une conversation, à ton rythme. 💜
+            </p>
+            <a href="https://m.me/LeMiroirdeNyXia" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="glass-button text-white border-0 px-8 py-6 text-lg">
+                💬 Écris-moi sur Messenger
               </Button>
             </a>
           </div>
