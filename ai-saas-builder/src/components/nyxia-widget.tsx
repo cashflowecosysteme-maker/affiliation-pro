@@ -49,7 +49,7 @@ export function NyXiaWidget({ mode = 'pastille', userName = '' }: NyXiaWidgetPro
       const timer = setTimeout(() => {
         setMessages([{
           role: 'assistant',
-          content: `Bonjour${userName ? ` ${userName}` : ''} ! ✨ Je suis NyXia, ton assistante IA. Comment puis-je t'aider aujourd'hui ?`,
+          content: `Bonjour${userName ? ` ${userName}` : ''} ! ✨ Je suis NyXia, ton miroir. Comment puis-je t'aider aujourd'hui ?`,
           timestamp: new Date()
         }])
         if (!isOpen) setUnreadCount(1)
@@ -113,11 +113,22 @@ export function NyXiaWidget({ mode = 'pastille', userName = '' }: NyXiaWidgetPro
   const speakMsg = (text: string) => {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text)
-      utterance.lang = 'fr-CA'
+      utterance.lang = 'fr-FR'
       utterance.rate = 1.05
       const voices = speechSynthesis.getVoices()
-      const frVoice = voices.find(v => v.lang.startsWith('fr'))
-      if (frVoice) utterance.voice = frVoice
+      // Français de France + belles voix, en évitant les vieilles voix robotiques
+      const PRIORITY = ['Google français', 'Microsoft Denise', 'Microsoft Vivienne', 'Microsoft Eloise', 'Amélie', 'Audrey', 'Virginie', 'Sophie', 'Marie', 'Alice']
+      const AVOID = /hortense|caroline|harmonie|e-?speak|pico|compact|claude\b/i
+      const frFR = voices.filter(v => /^fr[-_]fr/i.test(v.lang) && !AVOID.test(v.name))
+      let chosen: SpeechSynthesisVoice | undefined
+      for (const name of PRIORITY) {
+        chosen = frFR.find(v => v.name.toLowerCase().includes(name.toLowerCase()))
+        if (chosen) break
+      }
+      if (!chosen) chosen = frFR.find(v => /natural|online|enhanced/i.test(v.name) || v.localService === false)
+      if (!chosen) chosen = frFR[0]
+      if (!chosen) chosen = voices.find(v => /^fr/i.test(v.lang) && !AVOID.test(v.name)) || voices.find(v => /^fr/i.test(v.lang))
+      if (chosen) utterance.voice = chosen
       speechSynthesis.speak(utterance)
     }
   }
