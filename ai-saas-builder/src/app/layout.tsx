@@ -20,10 +20,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Publication-Web Cashflow" }],
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "32x32" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/FavIcon.png", type: "image/png" },
     ],
-    apple: "/favicon.svg",
+    apple: "/FavIcon.png",
   },
   openGraph: {
     title: "AffiliationPro - Ton Programme d'Affiliation en 5 Minutes",
