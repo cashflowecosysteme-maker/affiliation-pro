@@ -251,7 +251,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto">
           {/* Bannière */}
           <div className="relative mb-14 rounded-3xl overflow-hidden border border-purple-500/20 shadow-2xl">
-            <img src="/Enfin_on_te_voit_.png" alt="Le miroir du Cercle te renvoie enfin ta propre lumière" className="w-full h-auto" />
+            <img src="/Enfin_on_te_voit.png" alt="Le miroir du Cercle te renvoie enfin ta propre lumière" className="w-full h-auto" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
           </div>
 
