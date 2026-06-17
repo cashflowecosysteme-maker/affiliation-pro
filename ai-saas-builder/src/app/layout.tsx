@@ -14,10 +14,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AffiliationPro - Ton Programme d'Affiliation en 5 Minutes",
-  description: "Alternative à l'affiliation Systeme.io. Crée ton programme d'affiliation avec 3 niveaux de commissions (25%, 10%, 5%), dashboard complet et automatisation totale.",
-  keywords: ["affiliation", "marketing", "commission", "systeme.io", "3 niveaux", "programme affilié", "automatisation"],
-  authors: [{ name: "Publication-Web Cashflow" }],
+  title: "NyXia • Ta partenaire Cercle du Miroir™",
+  description: "Offre à tes clientes une présence qui ne s'éteint jamais. NyXia prolonge ta douceur, ton écoute et ton accompagnement jour après jour, tout en te laissant enfin l'espace de respirer.",
+  keywords: [ "NyXia",
+    "assistante IA",
+    "praticienne",
+    "thérapeute",
+    "coach",
+    "accompagnante",
+    "IA thérapeute",
+    "soutien client",
+    "accompagnement personnalisé",
+    "Cercle du Miroir"],
+  authors: [{ name: "Diane Boyer" }],
   icons: {
     icon: [
       { url: "/FavIcon.png", type: "image/png" },
