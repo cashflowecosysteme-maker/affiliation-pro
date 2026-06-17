@@ -266,32 +266,40 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it Works */}
+      {/* Franchir le seuil */}
       <section id="howitworks" className="relative z-10 px-6 py-24 md:px-12 lg:px-24">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              🚀 Comment ça <span className="gradient-text">marche</span> ?
+          {/* Bannière Portail */}
+          <div className="relative mb-14 rounded-3xl overflow-hidden border border-purple-500/20 shadow-2xl">
+            <img src="/Portail.png" alt="Le Portail du Cercle du Miroir — NyXia t'ouvre le seuil" className="w-full h-auto" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
+          </div>
+
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3">
+              Franchir le <span className="gradient-text">seuil.</span>
             </h2>
-            <p className="text-zinc-400">En 3 étapes simples, ton programme est prêt</p>
+            <p className="text-zinc-300 text-lg max-w-2xl mx-auto">
+              Tu n&apos;entres pas seule. De l&apos;autre côté, un cercle de femmes qui accompagnent comme toi.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 step: "1",
-                title: "Crée ton compte",
-                description: "Inscription gratuite en 30 secondes. Tu configures ton programme : nom, logo, pourcentages de commissions.",
+                title: "On apprend à se connaître.",
+                description: "Tu m'écris, on échange — vraiment. Je veux apprendre à te connaître : ta pratique, ce que tu portes, ce dont tu rêves. Une simple conversation sur Messenger, toi et moi (Diane).",
               },
               {
                 step: "2",
-                title: "Connecte Systeme.io",
-                description: "Tu colles ton webhook Systeme.io et c'est tout ! Les ventes sont automatiquement trackées.",
+                title: "Je te présente NyXia.",
+                description: "En toute transparence — ce qu'elle peut t'offrir, à toi et à celles que tu accompagnes. Et je t'écoute : ton expérience est précieuse, ton avis compte vraiment. 💜",
               },
               {
                 step: "3",
-                title: "Recrute tes affiliés",
-                description: "Partage ta page d'inscription. Tes affiliés s'inscrivent, reçoivent leurs liens et commencent à vendre pour toi !",
+                title: "Tu prends ta place dans le Cercle.",
+                description: "Rejoins notre communauté, NyXia • Le Cercle du Miroir™ — un refuge gratuit, parmi celles qui le bâtissent ensemble.",
               },
             ].map((item, i) => (
               <div key={i} className="relative">
@@ -307,6 +315,20 @@ export default function Home() {
                 )}
               </div>
             ))}
+          </div>
+
+          {/* Deux portes */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
+            <a href="https://m.me/LeMiroirdeNyXia" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="glass-button text-white border-0 px-8 py-6 text-lg">
+                💬 M&apos;écrire sur Messenger
+              </Button>
+            </a>
+            <a href="https://www.skool.com/refuge-amie-dans-le-miroir-2876" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="outline" className="border-purple-500/30 text-zinc-200 hover:text-white hover:bg-purple-500/10 px-8 py-6 text-lg">
+                ✨ Rejoindre le Cercle (gratuit)
+              </Button>
+            </a>
           </div>
         </div>
       </section>
