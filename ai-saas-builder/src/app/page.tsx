@@ -9,7 +9,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   ArrowRight,
-  Sparkles,
   Users,
   TrendingUp,
   Shield,
@@ -37,17 +36,9 @@ export default function Home() {
       {/* Navigation */}
       <nav className="relative z-10 flex items-center justify-between px-4 py-3 md:px-8 lg:px-12">
         {/* Left - Branding */}
-        <div className="flex flex-col">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
-            <div className="flex flex-col leading-tight">
-              <span className="text-xs text-zinc-400 tracking-wide">Publication CashFlow</span>
-              <span className="text-[10px] text-purple-400/70">Visionnaire depuis 1997</span>
-            </div>
-          </div>
-          <span className="text-lg font-bold gradient-text ml-11 mt-0.5">AffiliationPro</span>
+        <div className="flex items-center gap-2.5">
+          <img src="/Diamand_NyXia.png" alt="NyXia" className="w-10 h-10 object-contain" />
+          <span className="text-2xl font-bold gradient-text">NyXia</span>
         </div>
 
         {/* Center - Navigation Links */}
@@ -61,9 +52,6 @@ export default function Home() {
           <Link href="#pricing" className="text-sm text-zinc-400 hover:text-white transition-colors">
             Tarifs
           </Link>
-          <Link href="#publicationcashflow" className="text-sm text-zinc-400 hover:text-white transition-colors">
-            PublicationCashflow
-          </Link>
         </div>
 
         {/* Right - Social + Auth */}
@@ -71,7 +59,7 @@ export default function Home() {
           {/* Social Buttons */}
           <div className="hidden md:flex items-center gap-2">
             {/* Site Web */}
-            <a href="https://www.publication-web.com" target="_blank" rel="noopener noreferrer" 
+            <a href="https://lemiroirnyxia.online/" target="_blank" rel="noopener noreferrer" 
               className="w-9 h-9 rounded-xl flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 bg-white/5 border border-white/10 hover:bg-gradient-to-br hover:from-indigo-500 hover:to-purple-500 hover:border-transparent hover:-translate-y-0.5"
               title="Site Web">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -81,7 +69,7 @@ export default function Home() {
             </a>
             
             {/* Facebook */}
-            <a href="https://www.facebook.com/PublicationWeb" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.facebook.com/LeMiroirdeNyXia/" target="_blank" rel="noopener noreferrer"
               className="w-9 h-9 rounded-xl flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 bg-white/5 border border-white/10 hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-500 hover:border-transparent hover:-translate-y-0.5"
               title="Facebook">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -90,7 +78,7 @@ export default function Home() {
             </a>
             
             {/* Instagram */}
-            <a href="https://www.instagram.com/publication.web/" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.instagram.com/nyxia_ia/" target="_blank" rel="noopener noreferrer"
               className="w-9 h-9 rounded-xl flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 bg-white/5 border border-white/10 hover:bg-gradient-to-br hover:from-pink-500 hover:to-orange-400 hover:border-transparent hover:-translate-y-0.5"
               title="Instagram">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -99,7 +87,7 @@ export default function Home() {
             </a>
             
             {/* TikTok */}
-            <a href="https://www.tiktok.com/@publicationweb" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.tiktok.com/@lemiroirdenyxia" target="_blank" rel="noopener noreferrer"
               className="w-9 h-9 rounded-xl flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 bg-white/5 border border-white/10 hover:bg-gradient-to-br hover:from-cyan-400 hover:to-pink-500 hover:border-transparent hover:-translate-y-0.5"
               title="TikTok">
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -115,11 +103,6 @@ export default function Home() {
           <Link href="/login">
             <Button variant="ghost" className="text-zinc-400 hover:text-white text-sm px-3">
               Connexion
-            </Button>
-          </Link>
-          <Link href="/signup">
-            <Button className="glass-button text-white border-0 text-sm px-4">
-              Essai gratuit
             </Button>
           </Link>
         </div>
