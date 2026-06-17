@@ -14,7 +14,6 @@ import {
   DollarSign,
   Copy,
   Check,
-  Sparkles,
   ShoppingCart,
   Clock,
   Share2,
@@ -183,7 +182,7 @@ export default function DashboardPage() {
     })
   }
 
-  const nyxiaLink = `https://nyxiapublicationweb.com/?ref=${data?.profile?.affiliate_code || ''}`
+  const nyxiaLink = `https://lemiroirnyxia.online/?ref=${data?.profile?.affiliate_code || ''}`
 
   const copyNyXiaLink = () => {
     navigator.clipboard.writeText(nyxiaLink)
@@ -202,8 +201,8 @@ export default function DashboardPage() {
   const handleNativeShare = () => {
     const link = data?.affiliate?.affiliate_link || `${window.location.origin}/r/${data?.profile?.affiliate_code}`
     const shareData = {
-      title: 'AffiliationPro',
-      text: 'Rejoignez mon équipe !',
+      title: 'Le Cercle du Miroir',
+      text: 'Rejoins mon cercle ✨',
       url: link,
     }
     if (navigator.share) {
@@ -237,7 +236,7 @@ export default function DashboardPage() {
     })
   }
 
-  const shareText = 'Rejoignez mon équipe avec AffiliationPro !'
+  const shareText = 'Rejoins mon cercle ✨'
 
   if (isLoading) {
     return (
@@ -279,10 +278,8 @@ export default function DashboardPage() {
       <header className="relative z-10 flex items-center justify-between px-6 py-4 border-b border-purple-500/10">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-bold gradient-text">AffiliationPro</span>
+            <img src="/Diamand_NyXia.png" alt="NyXia" className="w-8 h-8 object-contain" />
+            <span className="font-bold gradient-text">NyXia</span>
           </Link>
         </div>
 
@@ -297,7 +294,7 @@ export default function DashboardPage() {
             PayPal
           </Button>
           <div className="hidden md:block text-right">
-            <p className="text-sm text-white font-medium">{profile.full_name || 'Affilié'}</p>
+            <p className="text-sm text-white font-medium">{profile.full_name || 'Membre'}</p>
             <p className="text-xs text-zinc-500">{profile.email}</p>
           </div>
           <Button 
@@ -323,14 +320,14 @@ export default function DashboardPage() {
                   Configuration PayPal
                 </CardTitle>
                 <CardDescription className="text-zinc-400">
-                  Indiquez votre email PayPal pour recevoir vos paiements
+                  Indique ton courriel PayPal pour recevoir tes paiements
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex gap-2">
                   <Input
                     type="email"
-                    placeholder="votre@email.com"
+                    placeholder="ton@courriel.com"
                     value={paypalEmail}
                     onChange={(e) => setPaypalEmail(e.target.value)}
                     className="bg-white/5 border-purple-500/20 text-white"
@@ -358,10 +355,10 @@ export default function DashboardPage() {
           {/* Welcome Section */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-white mb-2">
-              Bienvenue, {profile.full_name?.split(' ')[0] || 'Affilié'} 👋
+              Bienvenue, {profile.full_name?.split(' ')[0] || 'toi'} 👋
             </h1>
             <p className="text-zinc-400">
-              Voici un aperçu de vos performances d&apos;affiliation
+              Voici un aperçu de ton activité
             </p>
           </div>
 
@@ -396,21 +393,21 @@ export default function DashboardPage() {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <Star className="w-5 h-5 text-amber-400" />
-                    <h3 className="text-lg font-semibold text-white">Promouvoir NyXia</h3>
+                    <h3 className="text-lg font-semibold text-white">Partager NyXia</h3>
                     <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
                       Produit phare
                     </Badge>
                   </div>
                   <p className="text-zinc-400 text-sm mb-3">
-                    C&apos;est NOTRE produit phare — les ambassadeurs gagnent 25% de commission sur chaque vente de NyXia !
+                    C&apos;est notre produit phare. Quand une cliente choisit NyXia par ton lien, ce qui te revient est de 25%.
                   </p>
                   <div className="flex items-center gap-2 text-xs text-zinc-500">
                     <ExternalLink className="w-3 h-3" />
-                    <a href={nyxiaLink} target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline">nyxiapublicationweb.com</a>
+                    <a href={nyxiaLink} target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:underline">lemiroirnyxia.online</a>
                   </div>
                 </div>
                 <div className="w-full lg:w-auto space-y-3">
-                  <Label className="text-zinc-300 text-sm">Lien de promotion NyXia</Label>
+                  <Label className="text-zinc-300 text-sm">Ton lien NyXia</Label>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 lg:w-96 bg-white/5 rounded-lg px-4 py-3 border border-amber-500/20 font-mono text-sm text-zinc-300 truncate">
                       {nyxiaLink}
@@ -433,7 +430,7 @@ export default function DashboardPage() {
                       variant="outline"
                       size="sm"
                       className="flex-1 min-w-[120px] border-black/30 text-zinc-200 hover:bg-black/10 hover:text-white"
-                      onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('Découvrez NyXia !')}&url=${encodeURIComponent(nyxiaLink)}`, '_blank')}
+                      onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('Découvre NyXia ✨')}&url=${encodeURIComponent(nyxiaLink)}`, '_blank')}
                     >
                       <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                       X (Twitter)
@@ -442,7 +439,7 @@ export default function DashboardPage() {
                       variant="outline"
                       size="sm"
                       className="flex-1 min-w-[120px] border-green-500/30 text-green-400 hover:bg-green-500/10"
-                      onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(`Découvrez NyXia ! ${nyxiaLink}`)}`, '_blank')}
+                      onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(`Découvre NyXia ✨ ${nyxiaLink}`)}`, '_blank')}
                     >
                       <MessageCircle className="w-4 h-4 mr-1" />
                       WhatsApp
@@ -453,7 +450,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Referral Link - Parrainer Section */}
+          {/* Lien de partage - Cercle d'entraide */}
           <Card className="glass-card mb-8 border-green-500/30 overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 via-transparent to-emerald-500/10" />
             <CardContent className="p-6 relative">
@@ -461,25 +458,25 @@ export default function DashboardPage() {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <Gift className="w-5 h-5 text-green-400" />
-                    <h3 className="text-lg font-semibold text-white">Parrainez et gagnez</h3>
+                    <h3 className="text-lg font-semibold text-white">Ton cercle d&apos;entraide</h3>
                   </div>
                   <p className="text-zinc-400 text-sm mb-3">
-                    Partagez votre lien unique et gagnez des commissions sur 3 niveaux
+                    Partage ton lien : ce qui te revient se construit sur trois cercles
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                      Niveau 1: {affiliate?.program?.commission_l1 || 25}%
+                      1er cercle : {affiliate?.program?.commission_l1 || 25}%
                     </Badge>
                     <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                      Niveau 2: {affiliate?.program?.commission_l2 || 10}%
+                      2e cercle : {affiliate?.program?.commission_l2 || 10}%
                     </Badge>
                     <Badge className="bg-green-500/20 text-green-300 border-green-500/30">
-                      Niveau 3: {affiliate?.program?.commission_l3 || 5}%
+                      3e cercle : {affiliate?.program?.commission_l3 || 5}%
                     </Badge>
                   </div>
                 </div>
                 <div className="w-full lg:w-auto space-y-3">
-                  <Label className="text-zinc-300 text-sm">Votre lien d&apos;affiliation</Label>
+                  <Label className="text-zinc-300 text-sm">Ton lien de partage</Label>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 lg:w-80 bg-white/5 rounded-lg px-4 py-3 border border-purple-500/20 font-mono text-sm text-zinc-300 truncate">
                       {referralLink}
@@ -532,7 +529,7 @@ export default function DashboardPage() {
                       size="sm"
                       className="flex-1 min-w-[120px] border-purple-500/20 text-zinc-300 hover:text-white hover:bg-purple-500/10"
                       onClick={() => {
-                        navigator.clipboard.writeText(`${profile.full_name} vous invite à rejoindre AffiliationPro! ${referralLink}`)
+                        navigator.clipboard.writeText(`${profile.full_name} t'invite à la rejoindre ✨ ${referralLink}`)
                         toast.success('Message copié !')
                       }}
                     >
@@ -578,12 +575,12 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between mb-4">
                   <Users className="w-8 h-8 text-blue-500" />
                 </div>
-                <p className="text-zinc-400 text-sm mb-1">Filleuls (L1/L2/L3)</p>
+                <p className="text-zinc-400 text-sm mb-1">Ton cercle</p>
                 <p className="text-2xl font-bold text-white">{totalReferrals}</p>
                 <div className="flex gap-2 mt-2 text-xs text-zinc-500">
-                  <span>L1: {stats.l1Referrals}</span>
-                  <span>L2: {stats.l2Referrals}</span>
-                  <span>L3: {stats.l3Referrals}</span>
+                  <span>1er cercle : {stats.l1Referrals}</span>
+                  <span>2e cercle : {stats.l2Referrals}</span>
+                  <span>3e cercle : {stats.l3Referrals}</span>
                 </div>
               </CardContent>
             </Card>
@@ -599,15 +596,15 @@ export default function DashboardPage() {
             </Card>
           </div>
 
-          {/* Produits du Marketplace à promouvoir */}
+          {/* Produits à partager */}
           <Card className="glass-card border-0 mb-8">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Package className="w-5 h-5 text-cyan-400" />
-                Produits du Marketplace à promouvoir
+                Produits à partager
               </CardTitle>
               <CardDescription className="text-zinc-400">
-                Copiez les liens de ces produits pour les promouvoir et gagner des commissions
+                Copie les liens de ces produits pour les partager à ton tour
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -649,7 +646,7 @@ export default function DashboardPage() {
                         <div className="w-full md:w-auto space-y-2">
                           {product.affiliate_link ? (
                             <>
-                              <p className="text-xs text-purple-300 font-medium">Votre lien d&apos;affiliation :</p>
+                              <p className="text-xs text-purple-300 font-medium">Ton lien de partage :</p>
                               <div className="flex items-center gap-2">
                                 <div className="flex-1 bg-black/30 rounded-lg px-3 py-2.5 border border-purple-500/30 font-mono text-sm text-white break-all">
                                   {product.affiliate_link}
@@ -684,13 +681,13 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* 📊 Ventes de la semaine + Répartition des commissions */}
+          {/* 📊 Cette semaine + Répartition des commissions */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <Card className="glass-card border-0 lg:col-span-2">
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
                   <TrendingUp className="w-5 h-5 text-emerald-400" />
-                  Ventes de la semaine
+                  Cette semaine
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -736,17 +733,17 @@ export default function DashboardPage() {
                 <div className="space-y-4">
                   <div className="text-center p-4 rounded-lg bg-purple-500/10 border border-purple-500/20">
                     <p className="text-2xl font-bold text-purple-300">{stats.l1Referrals}</p>
-                    <p className="text-xs text-zinc-400 mt-1">Filleuls directs</p>
+                    <p className="text-xs text-zinc-400 mt-1">Cercle direct</p>
                     <Badge className="mt-2 bg-purple-500/20 text-purple-300 border-purple-500/30">Niveau 1</Badge>
                   </div>
                   <div className="text-center p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
                     <p className="text-2xl font-bold text-blue-300">{stats.l2Referrals}</p>
-                    <p className="text-xs text-zinc-400 mt-1">Filleuls N2</p>
+                    <p className="text-xs text-zinc-400 mt-1">2e cercle</p>
                     <Badge className="mt-2 bg-blue-500/20 text-blue-300 border-blue-500/30">Niveau 2</Badge>
                   </div>
                   <div className="text-center p-4 rounded-lg bg-green-500/10 border border-green-500/20">
                     <p className="text-2xl font-bold text-green-300">{stats.l3Referrals}</p>
-                    <p className="text-xs text-zinc-400 mt-1">Filleuls N3</p>
+                    <p className="text-xs text-zinc-400 mt-1">3e cercle</p>
                     <Badge className="mt-2 bg-green-500/20 text-green-300 border-green-500/30">Niveau 3</Badge>
                   </div>
                 </div>
@@ -754,20 +751,20 @@ export default function DashboardPage() {
             </Card>
           </div>
 
-          {/* 💰 Ventes récentes */}
+          {/* 💰 Activité récente */}
           <Card className="glass-card border-0 mb-8">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <DollarSign className="w-5 h-5 text-green-400" />
-                Ventes récentes
+                Activité récente
               </CardTitle>
             </CardHeader>
             <CardContent>
               {stats.recentSales.length === 0 ? (
                 <div className="text-center py-8 text-zinc-500">
                   <ShoppingCart className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                  <p>Aucune vente récente</p>
-                  <p className="text-sm">Partagez votre lien pour commencer à gagner !</p>
+                  <p>Aucune activité pour l&apos;instant</p>
+                  <p className="text-sm">Partage ton lien pour ouvrir ton cercle</p>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -807,16 +804,16 @@ export default function DashboardPage() {
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
                 <Users className="w-5 h-5 text-purple-400" />
-                Mon Équipe (Détails)
+                Mon cercle (détails)
               </CardTitle>
-              <CardDescription>Liste de vos filleuls et leurs coordonnées</CardDescription>
+              <CardDescription>Celles qui ont rejoint ton cercle</CardDescription>
             </CardHeader>
             <CardContent>
               {team.length === 0 ? (
                 <div className="text-center py-8 text-zinc-500">
                   <Users className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                  <p>Vous n'avez pas encore de filleuls directs.</p>
-                  <p className="text-sm">Partagez votre lien pour recruter !</p>
+                  <p>Ton cercle est encore à ouvrir.</p>
+                  <p className="text-sm">Partage ton lien pour ouvrir ton cercle</p>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
@@ -855,7 +852,7 @@ export default function DashboardPage() {
 
           {/* Affiliate Code Footer */}
           <div className="mt-8 p-4 rounded-xl bg-purple-500/5 border border-purple-500/10 text-center">
-            <p className="text-zinc-500 text-sm mb-2">Votre code d&apos;affiliation</p>
+            <p className="text-zinc-500 text-sm mb-2">Ton code de partage</p>
             <p className="text-2xl font-mono font-bold gradient-text">{profile.affiliate_code}</p>
           </div>
         </div>
