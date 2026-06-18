@@ -35,6 +35,7 @@ import {
   RefreshCw,
   Settings,
   Mail,
+  Trash2,
   MessageSquare,
   Send,
   Key,
@@ -77,6 +78,7 @@ interface Profile {
   subdomain: string | null
   parent_id: string | null
   created_at: string
+  status?: string | null
   webhook_secret?: string | null
   parent?: { full_name: string | null; email: string } | null
   children?: Profile[]
@@ -200,6 +202,9 @@ export default function SuperAdminPage() {
   // Feature 4: User Detail Panel
   const [userDetailOpen, setUserDetailOpen] = useState(false)
   const [selectedUser, setSelectedUser] = useState<Profile | null>(null)
+  const [editingDetailEmail, setEditingDetailEmail] = useState(false)
+  const [detailEmailValue, setDetailEmailValue] = useState('')
+  const [detailBusy, setDetailBusy] = useState(false)
   const [detailResetPassword, setDetailResetPassword] = useState(false)
   const [detailNewPassword, setDetailNewPassword] = useState('')
 
@@ -380,6 +385,8 @@ export default function SuperAdminPage() {
     setSelectedUser(user)
     setDetailResetPassword(false)
     setDetailNewPassword('')
+    setEditingDetailEmail(false)
+    setDetailEmailValue(user.email)
     setUserDetailOpen(true)
   }
 
@@ -402,6 +409,68 @@ export default function SuperAdminPage() {
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Erreur')
     }
+  }
+
+  const handleUpdateEmail = async () => {
+    if (!selectedUser) return
+    const e = detailEmailValue.trim().toLowerCase()
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) { toast.error('Courriel invalide'); return }
+    setDetailBusy(true)
+    try {
+      const response = await fetch('/api/super-admin/users', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: selectedUser.id, email: e }),
+      })
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.error)
+      toast.success('Courriel mis à jour')
+      setSelectedUser({ ...selectedUser, email: e })
+      setEditingDetailEmail(false)
+      fetchData()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erreur')
+    } finally { setDetailBusy(false) }
+  }
+
+  const handleToggleStatus = async () => {
+    if (!selectedUser) return
+    const next = selectedUser.status === 'suspended' ? 'active' : 'suspended'
+    setDetailBusy(true)
+    try {
+      const response = await fetch('/api/super-admin/users', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: selectedUser.id, status: next }),
+      })
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.error)
+      toast.success(next === 'suspended' ? 'Compte désactivé' : 'Compte réactivé')
+      setSelectedUser({ ...selectedUser, status: next })
+      fetchData()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erreur')
+    } finally { setDetailBusy(false) }
+  }
+
+  const handleDeleteUser = async () => {
+    if (!selectedUser) return
+    if (!window.confirm(`Supprimer définitivement le compte de ${selectedUser.full_name || selectedUser.email} ? Cette action est irréversible.`)) return
+    setDetailBusy(true)
+    try {
+      const response = await fetch('/api/super-admin/users', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: selectedUser.id }),
+      })
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.error)
+      toast.success('Compte supprimé')
+      setUserDetailOpen(false)
+      fetchData()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erreur')
+    } finally { setDetailBusy(false) }
   }
 
   const handleCreateUser = async (e: React.FormEvent) => {
@@ -1598,6 +1667,9 @@ export default function SuperAdminPage() {
                     <Badge className={selectedUser.role === 'admin' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 'bg-purple-500/10 text-purple-300 border-purple-500/20'}>
                       {selectedUser.role === 'admin' ? <><Building className="w-3 h-3 mr-1" />Admin</> : <><User className="w-3 h-3 mr-1" />Affilié</>}
                     </Badge>
+                    {selectedUser.status === 'suspended' && (
+                      <Badge className="ml-2 bg-red-500/10 text-red-400 border-red-500/20">Désactivé</Badge>
+                    )}
                   </div>
                   <div className="p-3 rounded-lg bg-white/5 border border-purple-500/10">
                     <p className="text-zinc-500 text-xs mb-1">Inscrit le</p>
@@ -1709,6 +1781,64 @@ export default function SuperAdminPage() {
                       </div>
                     </div>
                   )}
+                  {/* Modifier le courriel */}
+                  {!editingDetailEmail ? (
+                    <Button
+                      variant="outline"
+                      className="w-full border-purple-500/20 text-zinc-300"
+                      onClick={() => { setEditingDetailEmail(true); setDetailEmailValue(selectedUser.email) }}
+                    >
+                      <Mail className="w-4 h-4 mr-2" />Modifier le courriel
+                    </Button>
+                  ) : (
+                    <div className="space-y-2 p-3 rounded-lg bg-white/5 border border-purple-500/20">
+                      <p className="text-zinc-400 text-sm">Nouveau courriel :</p>
+                      <div className="flex gap-2">
+                        <Input
+                          type="email"
+                          placeholder="courriel@exemple.com"
+                          value={detailEmailValue}
+                          onChange={(e) => setDetailEmailValue(e.target.value)}
+                          className="h-9 bg-white/5 border-purple-500/20 text-white flex-1"
+                        />
+                        <Button size="sm" className="h-9 glass-button" disabled={detailBusy} onClick={handleUpdateEmail}>
+                          <Check className="w-4 h-4 mr-1" />OK
+                        </Button>
+                        <Button size="sm" variant="ghost" className="h-9" onClick={() => setEditingDetailEmail(false)}>
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Désactiver / Réactiver */}
+                  <Button
+                    variant="outline"
+                    className={selectedUser.status === 'suspended'
+                      ? 'w-full border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10'
+                      : 'w-full border-amber-500/30 text-amber-400 hover:bg-amber-500/10'}
+                    disabled={detailBusy}
+                    onClick={handleToggleStatus}
+                  >
+                    {selectedUser.status === 'suspended'
+                      ? (<><Check className="w-4 h-4 mr-2" />Réactiver le compte</>)
+                      : (<><X className="w-4 h-4 mr-2" />Désactiver le compte</>)}
+                  </Button>
+
+                  {/* Supprimer — uniquement un compte vide (aucun cercle, aucun historique) */}
+                  {((selectedUser.affiliates?.reduce((acc, a) => acc + a.total_earnings, 0) || 0) === 0 &&
+                    (selectedUser.affiliates?.reduce((acc, a) => acc + a.total_referrals, 0) || 0) === 0 &&
+                    ((selectedUser.children?.length || 0) + (selectedUser.level3?.length || 0)) === 0) && (
+                    <Button
+                      variant="outline"
+                      className="w-full border-red-500/30 text-red-400 hover:bg-red-500/10"
+                      disabled={detailBusy}
+                      onClick={handleDeleteUser}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />Supprimer ce compte vide
+                    </Button>
+                  )}
+
                   <Button 
                     variant="ghost" 
                     className="w-full text-zinc-500 hover:text-zinc-300"
