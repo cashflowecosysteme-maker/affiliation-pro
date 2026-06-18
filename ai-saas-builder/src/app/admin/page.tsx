@@ -547,7 +547,7 @@ export default function AdminDashboardPage() {
                       <Users className="w-10 h-10 mx-auto mb-2 opacity-30" />
                       <p>{searchQuery.trim() ? 'Aucun résultat pour cette recherche' : 'Aucun partenaire pour le moment'}</p>
                       {!searchQuery.trim() && (
-                        <p className="text-sm mt-1">Partagez votre lien pour créer votre cercle</p>
+                        <p className="text-sm mt-1">Partage ton lien et fais grandir ton cercle</p>
                       )}
                     </div>
                   ) : (
