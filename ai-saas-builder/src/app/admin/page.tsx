@@ -425,7 +425,7 @@ export default function AdminDashboardPage() {
                 <CardContent className="p-6">
                   <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div>
-                      <p className="text-zinc-400 text-sm mb-1">Votre lien de de création d'équipe</p>
+                      <p className="text-zinc-400 text-sm mb-1">Ton lien de création d'équipe</p>
                       <p className="font-mono text-white text-sm break-all">{referralLink}</p>
                     </div>
                     <Button onClick={copyLink} className="glass-button shrink-0">
