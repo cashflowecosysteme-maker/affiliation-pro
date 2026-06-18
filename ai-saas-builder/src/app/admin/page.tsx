@@ -358,7 +358,7 @@ export default function AdminDashboardPage() {
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <span className="font-bold gradient-text">AffiliationPro</span>
+            <span className="font-bold gradient-text">Le Cercle NyXia</span>
           </Link>
           <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20">
             <Building className="w-3 h-3 mr-1" />Admin
@@ -441,7 +441,7 @@ export default function AdminDashboardPage() {
                   <CardContent className="p-4 text-center">
                     <Users className="w-6 h-6 text-purple-400 mx-auto mb-2" />
                     <p className="text-2xl font-bold text-white">{data.stats.totalAffiliates}</p>
-                    <p className="text-zinc-500 text-xs">Affiliés</p>
+                    <p className="text-zinc-500 text-xs">Cercle</p>
                   </CardContent>
                 </Card>
                 <Card className="glass-card border-0">
@@ -545,7 +545,7 @@ export default function AdminDashboardPage() {
                   {filteredAffiliates.length === 0 ? (
                     <div className="text-center py-8 text-zinc-500">
                       <Users className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                      <p>{searchQuery.trim() ? 'Aucun résultat pour cette recherche' : 'Aucun affilié pour le moment'}</p>
+                      <p>{searchQuery.trim() ? 'Aucun résultat pour cette recherche' : 'Aucun partenaire pour le moment'}</p>
                       {!searchQuery.trim() && (
                         <p className="text-sm mt-1">Partagez votre lien pour recruter</p>
                       )}
@@ -660,7 +660,7 @@ export default function AdminDashboardPage() {
                     Paiements en attente
                   </CardTitle>
                   <CardDescription className="text-zinc-400">
-                    Payez vos affiliés pour leurs commissions
+                    Payez vos membres pour leurs commissions
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
