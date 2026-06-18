@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
     // Find user by email
     const user = await db
-      .prepare('SELECT id, email, password_hash, full_name, role, affiliate_code FROM users WHERE email = ?')
+      .prepare('SELECT id, email, password_hash, full_name, role, affiliate_code, status FROM users WHERE email = ?')
       .bind(email.toLowerCase())
       .first()
 
@@ -27,6 +27,11 @@ export async function POST(request: Request) {
     const valid = await verifyPassword(password, user.password_hash)
     if (!valid) {
       return NextResponse.json({ error: 'Email ou mot de passe incorrect' }, { status: 401 })
+    }
+
+    // Compte désactivé : accès bloqué
+    if (user.status === 'suspended') {
+      return NextResponse.json({ error: 'Ce compte est désactivé. Contacte-nous pour le réactiver.' }, { status: 403 })
     }
 
     // Create JWT token
