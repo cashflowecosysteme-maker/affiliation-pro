@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// UPDATE SUBDOMAIN
+// UPDATE: subdomain, email, status (active/suspended), and/or webhook_secret — only the fields provided
 export async function PUT(request: NextRequest) {
   try {
     const verification = await verifySuperAdmin(request)
@@ -113,28 +113,110 @@ export async function PUT(request: NextRequest) {
     }
     const { db } = verification
 
-    const { userId, subdomain } = await request.json()
-
-    // Check if subdomain is taken
-    if (subdomain) {
-      const existing = await db
-        .prepare('SELECT id FROM users WHERE subdomain = ? AND id != ?')
-        .bind(subdomain.toLowerCase(), userId)
-        .first()
-
-      if (existing) {
-        return NextResponse.json({ error: 'Ce sous-domaine est déjà utilisé' }, { status: 400 })
-      }
+    const { userId, subdomain, email, status, webhook_secret } = await request.json()
+    if (!userId) {
+      return NextResponse.json({ error: 'Utilisateur manquant' }, { status: 400 })
     }
 
-    await db
-      .prepare('UPDATE users SET subdomain = ? WHERE id = ?')
-      .bind(subdomain?.toLowerCase() || null, userId)
-      .run()
+    // EMAIL (courriel) — avec validation + unicité
+    if (typeof email === 'string' && email.trim()) {
+      const e = email.trim().toLowerCase()
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) {
+        return NextResponse.json({ error: 'Courriel invalide' }, { status: 400 })
+      }
+      const dup = await db
+        .prepare('SELECT id FROM users WHERE email = ? AND id != ?')
+        .bind(e, userId)
+        .first()
+      if (dup) {
+        return NextResponse.json({ error: 'Ce courriel est déjà utilisé par un autre compte' }, { status: 400 })
+      }
+      await db.prepare('UPDATE users SET email = ? WHERE id = ?').bind(e, userId).run()
+    }
+
+    // STATUT — active / suspended (désactiver / réactiver)
+    if (typeof status === 'string' && status.length) {
+      if (status !== 'active' && status !== 'suspended') {
+        return NextResponse.json({ error: 'Statut invalide' }, { status: 400 })
+      }
+      await db.prepare('UPDATE users SET status = ? WHERE id = ?').bind(status, userId).run()
+    }
+
+    // SECRET WEBHOOK (corrige l'ancien comportement qui ne le sauvegardait pas)
+    if (typeof webhook_secret === 'string' && webhook_secret.length) {
+      await db.prepare('UPDATE users SET webhook_secret = ? WHERE id = ?').bind(webhook_secret, userId).run()
+    }
+
+    // SOUS-DOMAINE — seulement si le champ est explicitement fourni
+    if (subdomain !== undefined) {
+      if (subdomain) {
+        const existing = await db
+          .prepare('SELECT id FROM users WHERE subdomain = ? AND id != ?')
+          .bind(String(subdomain).toLowerCase(), userId)
+          .first()
+        if (existing) {
+          return NextResponse.json({ error: 'Ce sous-domaine est déjà utilisé' }, { status: 400 })
+        }
+      }
+      await db
+        .prepare('UPDATE users SET subdomain = ? WHERE id = ?')
+        .bind(subdomain ? String(subdomain).toLowerCase() : null, userId)
+        .run()
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Update subdomain error:', error)
+    console.error('Update user error:', error)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
+
+// DELETE — suppression PROTÉGÉE (uniquement les comptes vides : aucun cercle, aucun historique)
+export async function DELETE(request: NextRequest) {
+  try {
+    const verification = await verifySuperAdmin(request)
+    if (!verification.authorized) {
+      return NextResponse.json({ error: 'Accès refusé' }, { status: 403 })
+    }
+    const { db, userId: currentUserId } = verification
+
+    const { userId } = await request.json()
+    if (!userId) {
+      return NextResponse.json({ error: 'Utilisateur manquant' }, { status: 400 })
+    }
+
+    const target = await db.prepare('SELECT id, role FROM users WHERE id = ?').bind(userId).first() as { id: string; role: string } | null
+    if (!target) {
+      return NextResponse.json({ error: 'Compte introuvable' }, { status: 404 })
+    }
+    if (target.role === 'super_admin' || userId === currentUserId) {
+      return NextResponse.json({ error: 'Ce compte ne peut pas être supprimé' }, { status: 400 })
+    }
+
+    // GARDE-FOU : refuser si le compte a un cercle (personnes rattachées) ...
+    const team = await db
+      .prepare('SELECT COUNT(*) as c FROM users WHERE admin_id = ? OR parent_id = ?')
+      .bind(userId, userId)
+      .first() as { c: number } | null
+    if (team && Number(team.c) > 0) {
+      return NextResponse.json({ error: 'Ce compte a un cercle rattaché — désactive-le plutôt que de le supprimer.' }, { status: 400 })
+    }
+    // ... ou un historique (gains / parrainages)
+    const aff = await db
+      .prepare('SELECT total_earnings, total_referrals FROM affiliates WHERE user_id = ?')
+      .bind(userId)
+      .first() as { total_earnings: number; total_referrals: number } | null
+    if (aff && (Number(aff.total_earnings) > 0 || Number(aff.total_referrals) > 0)) {
+      return NextResponse.json({ error: 'Ce compte a un historique (gains ou cercle) — désactive-le plutôt que de le supprimer.' }, { status: 400 })
+    }
+
+    // Compte vide : suppression sûre
+    await db.prepare('DELETE FROM affiliates WHERE user_id = ?').bind(userId).run()
+    await db.prepare('DELETE FROM users WHERE id = ?').bind(userId).run()
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Delete user error:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
