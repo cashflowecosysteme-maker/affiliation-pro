@@ -46,12 +46,12 @@ export async function GET(request: NextRequest) {
     let adminsResult
     if (search) {
       adminsResult = await db
-        .prepare("SELECT id, email, full_name, affiliate_code, role, paypal_email, subdomain, parent_id, created_at FROM users WHERE role = 'admin' AND (email LIKE ? OR full_name LIKE ?) ORDER BY created_at DESC")
+        .prepare("SELECT id, email, full_name, affiliate_code, role, paypal_email, subdomain, parent_id, created_at, status FROM users WHERE role = 'admin' AND (email LIKE ? OR full_name LIKE ?) ORDER BY created_at DESC")
         .bind(`%${search}%`, `%${search}%`)
         .all()
     } else {
       adminsResult = await db
-        .prepare("SELECT id, email, full_name, affiliate_code, role, paypal_email, subdomain, parent_id, created_at FROM users WHERE role = 'admin' ORDER BY created_at DESC")
+        .prepare("SELECT id, email, full_name, affiliate_code, role, paypal_email, subdomain, parent_id, created_at, status FROM users WHERE role = 'admin' ORDER BY created_at DESC")
         .all()
     }
     const admins = adminsResult.results || []
