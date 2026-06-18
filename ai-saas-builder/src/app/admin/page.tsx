@@ -417,7 +417,7 @@ export default function AdminDashboardPage() {
                 <h1 className="text-2xl font-bold text-white mb-1">
                   Bienvenue, {data.profile?.full_name?.split(' ')[0] || 'Admin'} 👋
                 </h1>
-                <p className="text-zinc-400 text-sm">Gérez votre programme d'affiliation</p>
+                <p className="text-zinc-400 text-sm">Fais rayonner ta présence sur le Marketplace</p>
               </div>
 
               {/* Referral Link */}
