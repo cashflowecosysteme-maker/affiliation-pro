@@ -30,6 +30,7 @@ import {
   MessageSquare,
   TrendingUp,
   MessageCircle,
+  Send,
   ExternalLink,
   Star,
   Package,
@@ -101,6 +102,9 @@ export default function DashboardPage() {
   const [isSavingPaypal, setIsSavingPaypal] = useState(false)
   const [copiedNyXia, setCopiedNyXia] = useState(false)
   const [copiedProductLinks, setCopiedProductLinks] = useState<Record<string, boolean>>({})
+  const [contactOpen, setContactOpen] = useState(false)
+  const [contactMsg, setContactMsg] = useState('')
+  const [contactSending, setContactSending] = useState(false)
 
   useEffect(() => {
     fetchDashboard()
@@ -165,6 +169,30 @@ export default function DashboardPage() {
       toast.error(error instanceof Error ? error.message : 'Erreur')
     } finally {
       setIsSavingPaypal(false)
+    }
+  }
+
+  const handleSendContact = async () => {
+    if (!contactMsg.trim()) {
+      toast.error('Écris ton message d\u2019abord 💜')
+      return
+    }
+    setContactSending(true)
+    try {
+      const response = await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: contactMsg.trim() }),
+      })
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.error)
+      toast.success('Message envoyé à l\u2019administration 💜')
+      setContactMsg('')
+      setContactOpen(false)
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erreur')
+    } finally {
+      setContactSending(false)
     }
   }
 
@@ -384,6 +412,50 @@ export default function DashboardPage() {
               </CardContent>
             </Card>
           )}
+
+          {/* CONTACTER L'ADMINISTRATION */}
+          <Card className="glass-card mb-8 border-purple-500/30">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-white flex items-center gap-2">
+                <MessageCircle className="w-5 h-5 text-purple-400" />
+                Une question ? Un souci ?
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {!contactOpen ? (
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <p className="text-zinc-400 text-sm">
+                    Écris-nous directement — ici, on prend soin de toi, personnellement. 💜
+                  </p>
+                  <Button className="glass-button shrink-0" onClick={() => setContactOpen(true)}>
+                    <MessageCircle className="w-4 h-4 mr-2" />Écrire à l&apos;administration
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <textarea
+                    placeholder="Dis-nous ce dont tu as besoin…"
+                    value={contactMsg}
+                    onChange={(e) => setContactMsg(e.target.value)}
+                    rows={4}
+                    className="w-full rounded-lg bg-white/5 border border-purple-500/20 text-white p-3 text-sm placeholder:text-zinc-500 focus:outline-none focus:border-purple-500/40 resize-none"
+                  />
+                  <div className="flex gap-2">
+                    <Button className="glass-button" disabled={contactSending} onClick={handleSendContact}>
+                      <Send className="w-4 h-4 mr-2" />{contactSending ? 'Envoi…' : 'Envoyer'}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      className="text-zinc-400 hover:text-zinc-200"
+                      onClick={() => { setContactOpen(false); setContactMsg('') }}
+                    >
+                      Annuler
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
           {/* Promouvoir NyXia — Produit Phare */}
           <Card className="glass-card mb-8 border-amber-500/30 overflow-hidden relative">
